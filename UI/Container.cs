@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace iPlay.UI
 {
@@ -24,8 +25,7 @@ namespace iPlay.UI
 			this.Nodes.Add(item);
 		}
 
-
-		public override void Draw(System.Windows.Forms.PaintEventArgs e)
+        public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
 			e.Graphics.FillRectangle(System.Drawing.Brushes.IndianRed, new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
@@ -34,5 +34,10 @@ namespace iPlay.UI
 			// draw childs
 			Nodes.ForEach(fe => fe.Draw(e));
 		}
-	}
+
+        public override void MouseDown(MouseEventArgs e)
+        {
+            Nodes.ForEach(fe => fe.MouseDown(e));
+        }
+    }
 }

@@ -28,27 +28,30 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
-			this.SuspendLayout();
-			// 
-			// UIUpdateTimer
-			// 
-			this.UIUpdateTimer.Enabled = true;
-			this.UIUpdateTimer.Interval = 10;
-			this.UIUpdateTimer.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// Main
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(722, 261);
-			this.DoubleBuffered = true;
-			this.KeyPreview = true;
-			this.Name = "Main";
-			this.Text = "iPlay";
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            this.UIUpdateTimer = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // UIUpdateTimer
+            // 
+            this.UIUpdateTimer.Enabled = true;
+            this.UIUpdateTimer.Interval = 10;
+            this.UIUpdateTimer.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // Main
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(722, 261);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
+            this.Name = "Main";
+            this.Text = "iPlay";
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Main_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Main_MouseUp);
+            this.ResumeLayout(false);
 
 		}
 

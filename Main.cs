@@ -43,5 +43,20 @@ namespace iPlay
 		{
 			this.Refresh();
 		}
-	}
+
+        private void Main_MouseDown(object sender, MouseEventArgs e)
+        {
+            p.MouseDown(e);
+        }
+
+        private void Main_MouseUp(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Main_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+    }
 }
