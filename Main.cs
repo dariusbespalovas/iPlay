@@ -12,15 +12,15 @@ namespace iPlay
 {
 	public partial class Main : Form
 	{
-		private UI.Panel p = new UI.Panel(new UI.Rect2D { X = 0, Y = 0, W = 500, H = 200 });
+		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 500, H = 200 });
 
 		public Main()
 		{
 			InitializeComponent();
 
-			UI.Panel p2 = new UI.Panel(new UI.Rect2D { X = 2, Y = 12, W = 246, H = 186 });
-			UI.Panel p3 = new UI.Panel(new UI.Rect2D { X = 250, Y = 12, W = 246, H = 186 });
-			UI.Panel p4 = new UI.Panel(new UI.Rect2D { X = 20, Y = 20, W = 20, H = 20 });
+			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 2, Y = 12, W = 246, H = 186 });
+			UI.Container p3 = new UI.Container(new UI.Rect2D { X = 250, Y = 12, W = 246, H = 186 });
+			UI.Container p4 = new UI.Container(new UI.Rect2D { X = 20, Y = 20, W = 20, H = 20 });
 
 			UI.Button b1 = new UI.Button(new UI.Rect2D { X = 5, Y = 5, W = 30, H = 15 });
 

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace iPlay.UI
 {
-	public class Panel : UIElement
+	public class Container : UIElement
 	{
 		private List<UIElement> Nodes;
 
-		public Panel(Rect2D rect) : base(rect)
+		public Container(Rect2D rect) : base(rect)
 		{
 			this.Nodes = new List<UIElement>();
 		}
