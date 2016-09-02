@@ -43,6 +43,8 @@ namespace iPlay
 			b3.Click += BtnClickHandler;
 			b4.Click += BtnClickHandler;
 
+			p2.Click += PanelClickHandler;
+
 			this.Paint += new PaintEventHandler(Main_Paint);
 		}
 
@@ -53,6 +55,11 @@ namespace iPlay
 			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
 		}
 
+		private void PanelClickHandler(object sender, EventArgs e)
+		{
+			//this.btnClicked = ((UI.Button)sender).Name;
+			System.Windows.Forms.MessageBox.Show("panel click");
+		}
 
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{

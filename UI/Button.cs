@@ -13,7 +13,7 @@ namespace iPlay.UI
 	{
 		public string Name { get; private set; }
 
-		public EventHandler Click;
+		
 
 
 

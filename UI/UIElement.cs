@@ -9,6 +9,8 @@ namespace iPlay.UI
 {
 	public abstract class UIElement
 	{
+		public EventHandler Click;
+
 		public Rect2D Rect;
 
 
@@ -27,7 +29,17 @@ namespace iPlay.UI
 
         public abstract void Draw(PaintEventArgs e);
 
-		public virtual void MouseDown(MouseEventArgs e) { }
+		public virtual void MouseDown(MouseEventArgs e) 
+		{
+			if (CheckBoundingBox(e))
+			{
+				EventHandler handler = Click;
+				if (handler != null)
+				{
+					handler(this, e);
+				}
+			}
+		}
 		public virtual void MouseUp(MouseEventArgs e) { }
 		public virtual void Hover(MouseEventArgs e) { }
 		public virtual void OnDblClick(MouseEventArgs e) { }

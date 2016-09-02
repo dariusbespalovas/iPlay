@@ -37,6 +37,7 @@ namespace iPlay.UI
 
         public override void MouseDown(MouseEventArgs e)
         {
+			base.MouseDown(e);
             Nodes.ForEach(fe => fe.MouseDown(e));
         }
     }
