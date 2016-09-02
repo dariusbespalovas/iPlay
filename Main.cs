@@ -77,17 +77,17 @@ namespace iPlay
 
         private void Main_MouseDown(object sender, MouseEventArgs e)
         {
-            p.MouseDown(e);
+			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
         }
 
         private void Main_MouseUp(object sender, MouseEventArgs e)
         {
-
+			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
         }
 
         private void Main_MouseMove(object sender, MouseEventArgs e)
         {
-
+			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
         }
     }
 }

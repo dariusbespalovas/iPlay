@@ -13,6 +13,7 @@ namespace iPlay.UI
 		public EventHandler MouseDown;
 		public EventHandler MouseUp;
 		public EventHandler Hover;
+		public EventHandler DoubleClick;
 
 		public Rect2D Rect;
 
@@ -21,29 +22,45 @@ namespace iPlay.UI
 			this.Rect = rect;
 		}
 
-
-        protected bool CheckBoundingBox(MouseEventArgs e)
-        {
-            return(e.X >= Rect.X + 1 && e.X <= Rect.X + Rect.W - 1 &&
-                e.Y >= Rect.Y && e.Y <= Rect.Y + Rect.H);
-        }
-
-
-        public abstract void Draw(PaintEventArgs e);
-
-		public virtual void MouseDown(MouseEventArgs e) 
+		public bool CheckBoundingBox(Events.MouseEvent e)
 		{
+			return(e.X >= Rect.X + 1 && e.X <= Rect.X + Rect.W - 1 &&
+				e.Y >= Rect.Y && e.Y <= Rect.Y + Rect.H);
+		}
+
+		public abstract void Draw(PaintEventArgs e);
+
+		#region EVENTS
+		public virtual void HandleMouseEvents(Events.MouseEvent e)
+		{
+			//if (e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
 			if (CheckBoundingBox(e))
 			{
-				EventHandler handler = Click;
+				EventHandler handler = null;
+
+				if(e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
+					handler = MouseDown;
+
+				if (e.Event == Events.MouseEvent.EventType.MouseUp && e.Button == Events.MouseEvent.MouseButton.Left)
+					handler = MouseUp;
+
+				if (e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
+					handler = Click;
+
+				
 				if (handler != null)
 				{
 					handler(this, e);
 				}
+
+
+			}
+			else
+			{
+				//clear events;
 			}
 		}
-		public virtual void MouseUp(MouseEventArgs e) { }
-		public virtual void Hover(MouseEventArgs e) { }
-		public virtual void OnDblClick(MouseEventArgs e) { }
+		#endregion
+
 	}
 }

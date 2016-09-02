@@ -25,7 +25,7 @@ namespace iPlay.UI
 			this.Nodes.Add(item);
 		}
 
-        public override void Draw(System.Windows.Forms.PaintEventArgs e)
+		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
 			e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(31, 31, 31)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
@@ -35,10 +35,12 @@ namespace iPlay.UI
 			Nodes.ForEach(fe => fe.Draw(e));
 		}
 
-        public override void MouseDown(MouseEventArgs e)
-        {
-			base.MouseDown(e);
-            Nodes.ForEach(fe => fe.MouseDown(e));
-        }
-    }
+		public override void HandleMouseEvents(Events.MouseEvent e)
+		{
+			if(!Nodes.Any(a => a.CheckBoundingBox(e)))
+				base.HandleMouseEvents(e);
+
+			Nodes.ForEach(fe => fe.HandleMouseEvents(e));
+		}
+	}
 }
