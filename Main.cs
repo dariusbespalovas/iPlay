@@ -12,7 +12,7 @@ namespace iPlay
 {
 	public partial class Main : Form
 	{
-		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 500, H = 200 });
+		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 490, H = 150 });
 
 		private string btnClicked = "000";
 
@@ -20,33 +20,54 @@ namespace iPlay
 		{
 			InitializeComponent();
 
-			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 2, Y = 12, W = 246, H = 186 });
+			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 5, Y = 13, W = 480, H = 132 });
 			UI.Container p3 = new UI.Container(new UI.Rect2D { X = 250, Y = 12, W = 246, H = 186 });
 			UI.Container p4 = new UI.Container(new UI.Rect2D { X = 20, Y = 20, W = 20, H = 20 });
 
-			UI.Button b1 = new UI.Button(new UI.Rect2D { X = 5, Y = 5, W = 35, H = 15 },	"B1");
-			UI.Button b2 = new UI.Button(new UI.Rect2D { X = 45, Y = 5, W = 35, H = 15 },	"B2");
-			UI.Button b3 = new UI.Button(new UI.Rect2D { X = 5, Y = 25, W = 35, H = 15 },	"B3");
-			UI.Button b4 = new UI.Button(new UI.Rect2D { X = 45, Y = 25, W = 35, H = 15 },	"B4");
+			UI.Button b1 = new UI.Button(new UI.Rect2D { X = 5, Y = 115, W = 17, H = 13 },	"Prev");
+			UI.Button b2 = new UI.Button(new UI.Rect2D { X = 24, Y = 115, W = 17, H = 13 }, "Play");
+			UI.Button b3 = new UI.Button(new UI.Rect2D { X = 43, Y = 115, W = 17, H = 13 }, "Pause");
+			UI.Button b4 = new UI.Button(new UI.Rect2D { X = 62, Y = 115, W = 17, H = 13 }, "Stop");
+			UI.Button b5 = new UI.Button(new UI.Rect2D { X = 81, Y = 115, W = 17, H = 13 }, "Next");
+
+			UI.Button b6 = new UI.Button(new UI.Rect2D { X = 468, Y = 2, W = 7, H = 7 }, "Minimize");
+			UI.Button b7 = new UI.Button(new UI.Rect2D { X = 478, Y = 2, W = 7, H = 7 }, "Close");
 
 			p.AddChild(p2);
-			p.AddChild(p3);
-			p3.AddChild(p4);
+
+			p.AddChild(b6);
+			p.AddChild(b7);
+
+			//p.AddChild(p3);
+			//p3.AddChild(p4);
 
 			p2.AddChild(b1);
 			p2.AddChild(b2);
 			p2.AddChild(b3);
 			p2.AddChild(b4);
+			p2.AddChild(b5);
 
 			b1.Click += BtnClickHandler;
 			b2.Click += BtnClickHandler;
 			b3.Click += BtnClickHandler;
 			b4.Click += BtnClickHandler;
+			b5.Click += BtnClickHandler;
 
-			p2.Click += PanelClickHandler;
-			p4.Click += PanelClickHandler;
+			b6.Click += BtnClickHandler;
+			b7.Click += BtnCloseHandler;
+
+			//p2.Click += PanelClickHandler;
+			//p4.Click += PanelClickHandler;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
+		}
+
+
+		private void BtnCloseHandler(object sender, EventArgs e)
+		{
+			Application.Exit();
+			//this.btnClicked = ((UI.Button)sender).Name;
+			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
 		}
 
 
