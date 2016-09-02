@@ -19,8 +19,11 @@ namespace iPlay.UI
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
-			e.Graphics.FillRectangle(System.Drawing.Brushes.Cyan, new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
-			e.Graphics.DrawRectangle(System.Drawing.Pens.Blue, new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
+			e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(50, 50, 50)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
+
+
+
+			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(21, 21, 21)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
 
             e.Graphics.DrawString("BTN", new Font(new FontFamily(GenericFontFamilies.SansSerif), 10 , FontStyle.Bold), Brushes.DarkOrange, Rect.X, Rect.Y);
 		}
