@@ -10,9 +10,11 @@ namespace iPlay.UI
 	public abstract class UIElement
 	{
 		public EventHandler Click;
+		public EventHandler MouseDown;
+		public EventHandler MouseUp;
+		public EventHandler Hover;
 
 		public Rect2D Rect;
-
 
 		public UIElement(Rect2D rect)
 		{

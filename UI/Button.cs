@@ -13,9 +13,6 @@ namespace iPlay.UI
 	{
 		public string Name { get; private set; }
 
-		
-
-
 
 		public Button(Rect2D rect, string Name) : base(rect)
 		{
@@ -31,16 +28,5 @@ namespace iPlay.UI
 			e.Graphics.DrawString("BTN", new Font(new FontFamily(GenericFontFamilies.SansSerif), 10 , FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), Rect.X, Rect.Y);
 		}
 
-		public override void MouseDown(MouseEventArgs e)
-		{
-			if (CheckBoundingBox(e))
-			{
-				EventHandler handler = Click;
-				if (handler != null)
-				{
-					handler(this, e);
-				}
-			}
-		}
 	}
 }
