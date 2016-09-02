@@ -28,8 +28,8 @@ namespace iPlay.UI
         public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
-			e.Graphics.FillRectangle(System.Drawing.Brushes.IndianRed, new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
-			e.Graphics.DrawRectangle(System.Drawing.Pens.Red, new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
+			e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(31, 31, 31)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
+			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(21, 21, 21)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
 
 			// draw childs
 			Nodes.ForEach(fe => fe.Draw(e));
