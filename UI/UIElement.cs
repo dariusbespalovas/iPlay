@@ -24,7 +24,7 @@ namespace iPlay.UI
 
 		public bool CheckBoundingBox(Events.MouseEvent e)
 		{
-			return(e.X >= Rect.X + 1 && e.X <= Rect.X + Rect.W - 1 &&
+			return(e.X >= Rect.X && e.X <= Rect.X + Rect.W &&
 				e.Y >= Rect.Y && e.Y <= Rect.Y + Rect.H);
 		}
 
@@ -33,7 +33,7 @@ namespace iPlay.UI
 		#region EVENTS
 		public virtual void HandleMouseEvents(Events.MouseEvent e)
 		{
-			//if (e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
+
 			if (CheckBoundingBox(e))
 			{
 				EventHandler handler = null;
@@ -52,7 +52,6 @@ namespace iPlay.UI
 				{
 					handler(this, e);
 				}
-
 
 			}
 			else

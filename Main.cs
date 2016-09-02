@@ -44,6 +44,7 @@ namespace iPlay
 			b4.Click += BtnClickHandler;
 
 			p2.Click += PanelClickHandler;
+			p4.Click += PanelClickHandler;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
 		}
@@ -58,7 +59,9 @@ namespace iPlay
 		private void PanelClickHandler(object sender, EventArgs e)
 		{
 			//this.btnClicked = ((UI.Button)sender).Name;
-			System.Windows.Forms.MessageBox.Show("panel click");
+			//System.Windows.Forms.MessageBox.Show("panel click");
+
+			this.btnClicked = "C";
 		}
 
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -75,19 +78,19 @@ namespace iPlay
 			this.Refresh();
 		}
 
-        private void Main_MouseDown(object sender, MouseEventArgs e)
-        {
+		private void Main_MouseDown(object sender, MouseEventArgs e)
+		{
 			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
-        }
+		}
 
-        private void Main_MouseUp(object sender, MouseEventArgs e)
-        {
+		private void Main_MouseUp(object sender, MouseEventArgs e)
+		{
 			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
-        }
+		}
 
-        private void Main_MouseMove(object sender, MouseEventArgs e)
-        {
+		private void Main_MouseMove(object sender, MouseEventArgs e)
+		{
 			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
-        }
-    }
+		}
+	}
 }
