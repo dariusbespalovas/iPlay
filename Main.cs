@@ -16,6 +16,8 @@ namespace iPlay
 
 		private string btnClicked = "000";
 
+		private string DoubleClickResult = "010";
+
 		public Main()
 		{
 			InitializeComponent();
@@ -48,6 +50,7 @@ namespace iPlay
 			p2.AddChild(b5);
 
 			b1.Click += BtnClickHandler;
+			b1.DoubleClick += BtnDblClickHandler;
 			b2.Click += BtnClickHandler;
 			b3.Click += BtnClickHandler;
 			b4.Click += BtnClickHandler;
@@ -60,11 +63,31 @@ namespace iPlay
 			//p4.Click += PanelClickHandler;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
+
+
+			var xml = System.IO.File.ReadAllText("settings.xml");
+			var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
+
+
+		  
 		}
 
 
 		private void BtnCloseHandler(object sender, EventArgs e)
 		{
+			var a = this.Top;
+			var b = this.Left;
+
+			Settings.Instance.WindowX = this.Left;
+			Settings.Instance.WindowY = this.Top;
+
+			string s = Utils.XmlUtility.SerializeToXmlString(Settings.Instance);
+
+			System.IO.File.WriteAllText("settings.xml", s);
+
+
+			
+
 			Application.Exit();
 			//this.btnClicked = ((UI.Button)sender).Name;
 			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
@@ -74,6 +97,12 @@ namespace iPlay
 		private void BtnClickHandler(object sender, EventArgs e)
 		{
 			this.btnClicked = ((UI.Button)sender).Name;
+			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
+		}
+
+		private void BtnDblClickHandler(object sender, EventArgs e)
+		{
+			this.DoubleClickResult = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond).ToString();
 			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
 		}
 
@@ -90,6 +119,7 @@ namespace iPlay
 			p.Draw(e);
 
 			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 100, 100);
+			e.Graphics.DrawString(DoubleClickResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 100, 80);
 
 			int a = 0;
 		}
@@ -99,6 +129,14 @@ namespace iPlay
 			this.Refresh();
 		}
 
+
+
+
+
+
+
+
+
 		private void Main_MouseDown(object sender, MouseEventArgs e)
 		{
 			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
@@ -106,12 +144,13 @@ namespace iPlay
 
 		private void Main_MouseUp(object sender, MouseEventArgs e)
 		{
-			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
+			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
 		}
 
 		private void Main_MouseMove(object sender, MouseEventArgs e)
 		{
-			//p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
+			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
 		}
+
 	}
 }

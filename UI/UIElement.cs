@@ -1,21 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace iPlay.UI
 {
 	public abstract class UIElement
 	{
+		#region EventHandlers
+		public EventHandler MouseEnter;
 		public EventHandler Click;
 		public EventHandler MouseDown;
 		public EventHandler MouseUp;
-		public EventHandler Hover;
 		public EventHandler DoubleClick;
+		public EventHandler MouseLeave;
+		#endregion
+
+		#region EventHandlersVariables
+
+		protected bool IsMouseOver = false;
+		protected bool ClickStarted = false;
+		protected long LastClickTime = 0;
+
+		#endregion
 
 		public Rect2D Rect;
+
+
+		
 
 		public UIElement(Rect2D rect)
 		{
@@ -34,30 +44,76 @@ namespace iPlay.UI
 		public virtual void HandleMouseEvents(Events.MouseEvent e)
 		{
 
-			if (CheckBoundingBox(e))
+			if(CheckBoundingBox(e))
 			{
-				EventHandler handler = null;
-
-				if(e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
-					handler = MouseDown;
-
-				if (e.Event == Events.MouseEvent.EventType.MouseUp && e.Button == Events.MouseEvent.MouseButton.Left)
-					handler = MouseUp;
-
-				if (e.Event == Events.MouseEvent.EventType.MouseDown && e.Button == Events.MouseEvent.MouseButton.Left)
-					handler = Click;
-
-				
-				if (handler != null)
+				switch(e.Event)
 				{
-					handler(this, e);
-				}
+					case Events.MouseEvent.EventType.MouseMove:
 
+						if(!IsMouseOver)
+						{
+							IsMouseOver = true;
+							MouseEnter?.Invoke(this, e);
+						}
+
+						break;
+
+					case Events.MouseEvent.EventType.MouseDown:
+
+						ClickStarted = true;
+						MouseDown?.Invoke(this, e);
+
+						long ClickTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+						if(ClickTime - LastClickTime < 500)
+						{
+							LastClickTime = 0;
+							DoubleClick?.Invoke(this, e);
+						}
+						else
+						{
+							LastClickTime = ClickTime;
+						}
+
+						break;
+
+					case Events.MouseEvent.EventType.MouseUp:
+
+						if (ClickStarted)
+						{
+							ClickStarted = false;
+							Click?.Invoke(this, e);
+						}
+
+						MouseUp?.Invoke(this, e);
+
+						break;
+				}
 			}
 			else
 			{
-				//clear events;
+				switch (e.Event)
+				{
+					case Events.MouseEvent.EventType.MouseMove:
+						if (IsMouseOver)
+						{
+							IsMouseOver = false;
+							MouseLeave?.Invoke(this, e);
+						}
+						break;
+
+					case Events.MouseEvent.EventType.MouseDown:
+						ClickStarted = false;
+						break;
+
+					case Events.MouseEvent.EventType.MouseUp:
+						ClickStarted = false;
+						break;
+
+					
+				}
 			}
+
 		}
 		#endregion
 
