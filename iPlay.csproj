@@ -56,6 +56,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Container.cs" />
+    <Compile Include="UI\PlayListMenu.cs" />
     <Compile Include="UI\Rect2D.cs" />
     <Compile Include="UI\Slider.cs" />
     <Compile Include="UI\UIElement.cs" />

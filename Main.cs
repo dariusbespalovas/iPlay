@@ -31,9 +31,11 @@ namespace iPlay
 			UI.Slider s1 = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
 			UI.Slider s2 = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
 
-			UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3", UI.Slider.SliderOrientation.Vertical);
+			//UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3", UI.Slider.SliderOrientation.Vertical);
 
-			s3.Value = 0.3f;
+			UI.PlayListMenu pm = new UI.PlayListMenu(new UI.Rect2D { X = 198, Y = 4, W = 278, H = 108 });
+
+			//s3.Value = 0.3f;
 
 			p.AddChild(p2);
 
@@ -41,6 +43,7 @@ namespace iPlay
 			p.AddChild(b7);
 
 
+			p2.AddChild(pm);
 			p2.AddChild(b1);
 			p2.AddChild(b2);
 			p2.AddChild(b3);
@@ -50,7 +53,7 @@ namespace iPlay
 			p2.AddChild(s1);
 			p2.AddChild(s2);
 
-			p2.AddChild(s3);
+			//p2.AddChild(s3);
 
 
 			b1.Click += BtnClickHandler;
@@ -65,7 +68,7 @@ namespace iPlay
 
 			s1.Change += SliderChangeHandler;
 			s2.Change += SliderChangeHandler;
-			s3.Change += SliderChangeHandler;
+			//s3.Change += SliderChangeHandler;
 
 
 			this.Paint += new PaintEventHandler(Main_Paint);
@@ -122,10 +125,10 @@ namespace iPlay
 		{
 			p.Draw(e);
 
-			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 100);
-			e.Graphics.DrawString(sliderResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 80);
+			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 40);
+			e.Graphics.DrawString(sliderResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 20);
 
-			int a = 0;
+			//int a = 0;
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
