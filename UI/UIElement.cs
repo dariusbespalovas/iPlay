@@ -12,7 +12,6 @@ namespace iPlay.UI
 		public EventHandler MouseUp;
 		public EventHandler DoubleClick;
 		public EventHandler MouseLeave;
-		//public EventHandler MouseMove;
 		#endregion
 
 		#region EventHandlersVariables

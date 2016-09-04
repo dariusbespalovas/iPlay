@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace iPlay
@@ -16,15 +10,13 @@ namespace iPlay
 
 		private string btnClicked = "000";
 
-		private string DoubleClickResult = "010";
+		private string sliderResult = "010";
 
 		public Main()
 		{
 			InitializeComponent();
 
 			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
-			//UI.Container p3 = new UI.Container(new UI.Rect2D { X = 250, Y = 12, W = 246, H = 186 });
-			//UI.Container p4 = new UI.Container(new UI.Rect2D { X = 20, Y = 20, W = 20, H = 20 });
 
 			UI.Button b1 = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"Prev");
 			UI.Button b2 = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "Play");
@@ -36,18 +28,18 @@ namespace iPlay
 			UI.Button b7 = new UI.Button(new UI.Rect2D { X = 477, Y = 3, W = 7, H = 7 }, "Close");
 
 
-			UI.Slider s1 = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1");
-			UI.Slider s2 = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2");
+			UI.Slider s1 = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
+			UI.Slider s2 = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
 
-			UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3");
+			UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3", UI.Slider.SliderOrientation.Vertical);
+
+			s3.Value = 0.3f;
 
 			p.AddChild(p2);
 
 			p.AddChild(b6);
 			p.AddChild(b7);
 
-			//p.AddChild(p3);
-			//p3.AddChild(p4);
 
 			p2.AddChild(b1);
 			p2.AddChild(b2);
@@ -59,11 +51,9 @@ namespace iPlay
 			p2.AddChild(s2);
 
 			p2.AddChild(s3);
-			//p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2); p2.AddChild(s2);
 
 
 			b1.Click += BtnClickHandler;
-			b1.DoubleClick += BtnDblClickHandler;
 			b2.Click += BtnClickHandler;
 			b3.Click += BtnClickHandler;
 			b4.Click += BtnClickHandler;
@@ -72,8 +62,11 @@ namespace iPlay
 			b6.Click += BtnClickHandler;
 			b7.Click += BtnCloseHandler;
 
-			//p2.Click += PanelClickHandler;
-			//p4.Click += PanelClickHandler;
+
+			s1.Change += SliderChangeHandler;
+			s2.Change += SliderChangeHandler;
+			s3.Change += SliderChangeHandler;
+
 
 			this.Paint += new PaintEventHandler(Main_Paint);
 
@@ -81,7 +74,7 @@ namespace iPlay
 			var xml = System.IO.File.ReadAllText("settings.xml");
 			var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
 
-			s1.Progress = 0.8f;
+			s1.Value = 0.8f;
 
 			//int a = 5;
 
@@ -102,25 +95,20 @@ namespace iPlay
 			System.IO.File.WriteAllText("settings.xml", s);
 
 
-			
-
 			Application.Exit();
-			//this.btnClicked = ((UI.Button)sender).Name;
-			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
 		}
 
 
 		private void BtnClickHandler(object sender, EventArgs e)
 		{
 			this.btnClicked = ((UI.Button)sender).Name;
-			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
 		}
 
-		private void BtnDblClickHandler(object sender, EventArgs e)
+		private void SliderChangeHandler(object sender, EventArgs e)
 		{
-			this.DoubleClickResult = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond).ToString();
-			//System.Windows.Forms.MessageBox.Show(((UI.Button)sender).Name);
+			this.sliderResult = ((UI.Slider)sender).Value.ToString();
 		}
+
 
 		private void PanelClickHandler(object sender, EventArgs e)
 		{
@@ -134,8 +122,8 @@ namespace iPlay
 		{
 			p.Draw(e);
 
-			//e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 100);
-			//e.Graphics.DrawString(DoubleClickResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 80);
+			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 100);
+			e.Graphics.DrawString(sliderResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 250, 80);
 
 			int a = 0;
 		}
@@ -144,9 +132,6 @@ namespace iPlay
 		{
 			this.Refresh();
 		}
-
-
-
 
 
 
