@@ -12,6 +12,7 @@ namespace iPlay.UI
 		public EventHandler MouseUp;
 		public EventHandler DoubleClick;
 		public EventHandler MouseLeave;
+		//public EventHandler MouseMove;
 		#endregion
 
 		#region EventHandlersVariables
@@ -24,18 +25,26 @@ namespace iPlay.UI
 
 		public Rect2D Rect;
 
+		protected System.Drawing.Graphics graphics;
+		protected System.Drawing.Bitmap Bmp;
 
 		
 
 		public UIElement(Rect2D rect)
 		{
 			this.Rect = rect;
+			this.Bmp = new System.Drawing.Bitmap(Rect.W, rect.H);
+			this.graphics = System.Drawing.Graphics.FromImage(this.Bmp);
+
+			//System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(this.Bmp);
+
+			//gr.FillRectangle(new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 0, 0, 0)), new System.Drawing.Rectangle(1, 1, Rect.W, Rect.H));
 		}
 
 		public bool CheckBoundingBox(Events.MouseEvent e)
 		{
-			return(e.X >= Rect.X && e.X <= Rect.X + Rect.W &&
-				e.Y >= Rect.Y && e.Y <= Rect.Y + Rect.H);
+			return(	e.X >= Rect.X && e.X < Rect.X + Rect.W &&
+					e.Y >= Rect.Y && e.Y < Rect.Y + Rect.H);
 		}
 
 		public abstract void Draw(PaintEventArgs e);

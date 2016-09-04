@@ -12,6 +12,12 @@ namespace iPlay.UI
 	{
 		private List<UIElement> Nodes;
 
+
+		#region drawing stuff
+		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
+		private Pen BorderPen = new Pen(Color.FromArgb(21, 21, 21));
+		#endregion
+
 		public Container(Rect2D rect) : base(rect)
 		{
 			this.Nodes = new List<UIElement>();
@@ -28,8 +34,8 @@ namespace iPlay.UI
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
-			e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(31, 31, 31)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
-			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(21, 21, 21)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
+			e.Graphics.FillRectangle(BackgroudBrush, Rect.X, Rect.Y, Rect.W, Rect.H);
+			e.Graphics.DrawRectangle(BorderPen, Rect.X, Rect.Y, Rect.W - 1, Rect.H - 1);
 
 			// draw childs
 			Nodes.ForEach(fe => fe.Draw(e));

@@ -13,6 +13,12 @@ namespace iPlay.UI
 	{
 		public string Name { get; private set; }
 
+		#region drawing stuff
+		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(131, 31, 31));
+		private Pen BorderPen = new Pen(Color.FromArgb(21, 21, 21));
+		private SolidBrush testBrush = new SolidBrush(Color.FromArgb(200, 31, 31));
+		#endregion
+
 
 		public Button(Rect2D rect, string Name) : base(rect)
 		{
@@ -21,11 +27,17 @@ namespace iPlay.UI
 
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
-			// draw self
-			e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(31, 31, 31)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
-			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(21, 21, 21)), new Rectangle(Rect.X, Rect.Y, Rect.W, Rect.H));
 
-			e.Graphics.DrawString("*", new Font(new FontFamily(GenericFontFamilies.SansSerif), 10 , FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), Rect.X, Rect.Y);
+			graphics.FillRectangle(BackgroudBrush, 0, 0, Rect.W, Rect.H);
+			graphics.DrawRectangle(BorderPen, 0, 0, Rect.W - 1, Rect.H - 1);
+
+			graphics.FillRectangle(testBrush, 0 + Rect.W / 3, 0 + Rect.H / 3, Rect.W / 3, Rect.H / 3);
+
+			//e.Graphics.DrawString("*", new Font(new FontFamily(GenericFontFamilies.SansSerif), 10, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), Rect.X, Rect.Y);
+
+
+			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);
+
 		}
 
 	}
