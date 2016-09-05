@@ -25,7 +25,8 @@ namespace iPlay
 				{
 					Name = "Name" + i.ToString(),
 					Path = "Path" + i.ToString(),
-					Duration = 0
+					Duration = 0,
+					DurationString = "00:00:00"
 				});
 			}
 
@@ -35,13 +36,15 @@ namespace iPlay
 				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
 				{
 					FieldName = "Name",
-					Width = 150
+					Width = 215,
+					Alignment = StringAlignment.Near
 				},
 
 				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
 				{
-					FieldName = "Path",
-					Width = 50
+					FieldName = "DurationString",
+					Width = 55,
+					Alignment = StringAlignment.Far
 				}
 
 			};

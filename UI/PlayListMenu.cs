@@ -22,10 +22,14 @@ namespace iPlay.UI
 		private List<T> RowList;
 		private List<TableSetingsModel> TableSettings;
 
+		private StringFormat stringFormat = new StringFormat();
+		
+
 		public class TableSetingsModel
 		{
 			public string FieldName { get; set; }
 			public int Width { get; set; }
+			public StringAlignment Alignment { get; set; }
 		}
 
 
@@ -107,7 +111,11 @@ namespace iPlay.UI
 				string txt = t.GetType().GetProperty(v.FieldName).GetValue(t, null).ToString();
 
 
-				graphics.DrawString(txt, fnt, brsh, paintStart, h);
+				//graphics.DrawString(txt, fnt, brsh, paintStart, h);
+
+				stringFormat.Alignment = v.Alignment;
+
+				graphics.DrawString(txt, fnt, brsh, new RectangleF(paintStart, h, v.Width, 13), this.stringFormat);
 
 				paintStart += v.Width;
 
