@@ -41,6 +41,8 @@ namespace iPlay.UI
 		{
 			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.X, Y = this.Rect.Y, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
 			Scrollbar.Change += ScrollbarChange;
+			this.Click += PlaylistClickedSingle;
+			this.DoubleClick += PlaylistClickedDouble;
 		}
 
 		private void UpdateLocations()
@@ -52,11 +54,36 @@ namespace iPlay.UI
 
 		private void ScrollbarChange(object sender, EventArgs e)
 		{
-			//this.IsMouseDown = true;
-			//UpdateProgress((Events.MouseEvent)e);
-
 			this.top = (int)(Scrollbar.Value * (playlist.Count-1));
 			if (this.top < 0) this.top = 0;
+		}
+
+		private void PlaylistClickedSingle(object sender, EventArgs e)
+		{
+			HandleClickSelection(e, false);
+		}
+
+		private void PlaylistClickedDouble(object sender, EventArgs e)
+		{
+			HandleClickSelection(e, true);
+		}
+
+
+		private void HandleClickSelection(EventArgs e, bool IsDoubleClick)
+		{
+			if (((Events.MouseEvent)e).X >= Rect.X + 1 && ((Events.MouseEvent)e).X <= Rect.X + Rect.W - 13 &&
+					((Events.MouseEvent)e).Y >= Rect.Y && ((Events.MouseEvent)e).Y <= Rect.Y + Rect.H)
+			{
+				for (int i = 0; i < (Rect.H - 4) / 13 && i + top < playlist.Count; i++)
+				{
+					if (((Events.MouseEvent)e).Y >= Rect.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= Rect.Y + 2 + (i * 13) + 12)
+					{
+						SelectedRow = top + i;
+						if (IsDoubleClick)
+							MarkedRow = SelectedRow;
+					}
+				}
+			}
 		}
 
 
@@ -75,8 +102,8 @@ namespace iPlay.UI
 
 
 			//top = 2;
-			SelectedRow = 5;
-			MarkedRow = 7;
+			//SelectedRow = 5;
+			//MarkedRow = 7;
 
 
 
