@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +16,36 @@ namespace iPlay
 		public Main()
 		{
 			InitializeComponent();
+
+
+			List<PlaylistItemModel> playlist = new List<PlaylistItemModel>();
+			for(int i = 0; i < 500; i++)
+			{
+				playlist.Add(new PlaylistItemModel
+				{
+					Name = "Name" + i.ToString(),
+					Path = "Path" + i.ToString(),
+					Duration = 0
+				});
+			}
+
+
+			List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel> playlistSetings = new List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel>
+			{
+				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
+				{
+					FieldName = "Name",
+					Width = 150
+				},
+
+				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
+				{
+					FieldName = "Path",
+					Width = 50
+				}
+
+			};
+
 
 			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
@@ -33,7 +64,7 @@ namespace iPlay
 
 			//UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3", UI.Slider.SliderOrientation.Vertical);
 
-			UI.PlayListMenu pm = new UI.PlayListMenu(new UI.Rect2D { X = 198, Y = 4, W = 278, H = 108 });
+			UI.PlayListMenu<PlaylistItemModel> pm = new UI.PlayListMenu<PlaylistItemModel>(new UI.Rect2D { X = 198, Y = 4, W = 278, H = 108 }, playlist, playlistSetings);
 
 			//s3.Value = 0.3f;
 

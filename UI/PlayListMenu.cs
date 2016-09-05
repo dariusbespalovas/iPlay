@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace iPlay.UI
 {
-	public class PlayListMenu : UIElement
+	public class PlayListMenu<T> : UIElement
 	{
 		private Slider Scrollbar;
 
@@ -19,13 +19,16 @@ namespace iPlay.UI
 		private int lastMouse1, lastMouse2;
 		private bool redraw = true;
 
-		private List<string> playlist = new List<string> 
+		private List<T> RowList;
+		private List<TableSetingsModel> TableSettings;
+
+		public class TableSetingsModel
 		{
-			"a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10",
-			"b11", "b12", "b13", "b14", "b15", "b16", "b17", "b18", "b19", "b20",
-			"c21", "c22", "c23", "c24", "c25", "c26", "c27", "c28", "c29", "c30"
-		
-		};
+			public string FieldName { get; set; }
+			public int Width { get; set; }
+		}
+
+
 
 		#region drawing stuff
 		//private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(131, 31, 31));
@@ -37,10 +40,15 @@ namespace iPlay.UI
 
 		//private bool UpdateLocations
 
-		public PlayListMenu(Rect2D Rect) : base(Rect)
+		public PlayListMenu(Rect2D Rect, List<T> list, List<TableSetingsModel> TableSettings) : base(Rect)
 		{
+			this.RowList = list;
+			this.TableSettings = TableSettings;
+
 			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.X, Y = this.Rect.Y, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
 			Scrollbar.Change += ScrollbarChange;
+
+
 			this.Click += PlaylistClickedSingle;
 			this.DoubleClick += PlaylistClickedDouble;
 		}
@@ -54,7 +62,7 @@ namespace iPlay.UI
 
 		private void ScrollbarChange(object sender, EventArgs e)
 		{
-			this.top = (int)(Scrollbar.Value * (playlist.Count-1));
+			this.top = (int)(Scrollbar.Value * (RowList.Count-1));
 			if (this.top < 0) this.top = 0;
 		}
 
@@ -74,7 +82,7 @@ namespace iPlay.UI
 			if (((Events.MouseEvent)e).X >= Rect.X + 1 && ((Events.MouseEvent)e).X <= Rect.X + Rect.W - 13 &&
 					((Events.MouseEvent)e).Y >= Rect.Y && ((Events.MouseEvent)e).Y <= Rect.Y + Rect.H)
 			{
-				for (int i = 0; i < (Rect.H - 4) / 13 && i + top < playlist.Count; i++)
+				for (int i = 0; i < (Rect.H - 4) / 13 && i + top < RowList.Count; i++)
 				{
 					if (((Events.MouseEvent)e).Y >= Rect.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= Rect.Y + 2 + (i * 13) + 12)
 					{
@@ -86,6 +94,25 @@ namespace iPlay.UI
 			}
 		}
 
+
+		private void DrawRow(T t, int h)
+		{
+			int paintStart = 2;
+
+			Font fnt = new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular);
+			Brush brsh = new SolidBrush(Color.FromArgb(240, 240, 240));
+
+			foreach (var v in TableSettings)
+			{
+				string txt = t.GetType().GetProperty(v.FieldName).GetValue(t, null).ToString();
+
+
+				graphics.DrawString(txt, fnt, brsh, paintStart, h);
+
+				paintStart += v.Width;
+
+			}
+		}
 
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
@@ -110,76 +137,78 @@ namespace iPlay.UI
 
 
 			if (redraw)
-						{
-							//Bitmap bmp(dimensions->width, dimensions->height);
-							//Graphics *fromImg = Graphics::FromImage(&bmp);
+			{
+				//Bitmap bmp(dimensions->width, dimensions->height);
+				//Graphics *fromImg = Graphics::FromImage(&bmp);
 
-							SolidBrush  brushNowPlaying = new SolidBrush(Color.FromArgb(60, 80, 100));
-							//SolidBrush  brushFontColor(PLAYLIST_MENU_TEXT_COLOR);
-							//SolidBrush  sbrushSliderBackground(PLAYLIST_MENU_SLIDER_BACKGROUND_COLOR);
-							//SolidBrush  brushSlider(PLAYLIST_MENU_SLIDER_COLOR);
-							//SolidBrush  brushBackground(PLAYLIST_MENU_BACKGROUND_COLOR);
-							//Pen			penBorder(PLAYLIST_MENU_BORDER_COLOR);
-							Pen penBorderSelected = new Pen(Color.FromArgb(120, 120, 120));
-							//Pen			penLine(SLIDER_CENTER_LINE_COLOR);
+				SolidBrush  brushNowPlaying = new SolidBrush(Color.FromArgb(60, 80, 100));
+				//SolidBrush  brushFontColor(PLAYLIST_MENU_TEXT_COLOR);
+				//SolidBrush  sbrushSliderBackground(PLAYLIST_MENU_SLIDER_BACKGROUND_COLOR);
+				//SolidBrush  brushSlider(PLAYLIST_MENU_SLIDER_COLOR);
+				//SolidBrush  brushBackground(PLAYLIST_MENU_BACKGROUND_COLOR);
+				//Pen			penBorder(PLAYLIST_MENU_BORDER_COLOR);
+				Pen penBorderSelected = new Pen(Color.FromArgb(120, 120, 120));
+				//Pen			penLine(SLIDER_CENTER_LINE_COLOR);
 
-							//FontFamily  fontFamily(L"Ventouse");
+				//FontFamily  fontFamily(L"Ventouse");
 
 							
 
-							//song
-							for(int i = 0; i < (Rect.H-4)/13 && i+top < playlist.Count; i++)
-							{
+				//song
+				for(int i = 0; i < (Rect.H-4)/13 && i+top < RowList.Count; i++)
+				{
 
-								//MusicFileData d;						
-								//d = playlist->getSong(i+top);
+					//MusicFileData d;						
+					//d = playlist->getSong(i+top);
 
-								if(i + top == MarkedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), Rect.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
-								if(i + top == SelectedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), Rect.W - Scrollbar.Rect.W - 4, 11);
-
-
-
-
-								//if(d.length >= 36000) d.length = 0;
-
-								//WCHAR *txt1 = new WCHAR[20];
-								//_stprintf(txt1, _T("%d:%02d:%02d"), d.length / 60 / 60, d.length / 60 % 60, d.length % 60);
-								//fromImg->DrawString(txt1, -1, font, RectF(2 + 220, (i*13), 50, 13), NULL ,&brushFontColor);
-								//delete[] txt1;
-
-
-								//WCHAR *txt = new WCHAR[260];
-								//_stprintf(txt, _T("%d. %s"), top+i+1 , d.name.c_str());
-								//fromImg->DrawString(txt, -1, font, RectF(2, (i*13), 218, 13), NULL ,&brushFontColor);
-								//delete[] txt;
-
-								graphics.DrawString("0:00:00", new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2 + 220, i * 13);
-
-								graphics.DrawString((i+top+1).ToString() + ". " + playlist[i+top], new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2, i*13);
-							}
-
-
-
-							//float pp = (float)top / (playlist->count() - (dimensions->height-4)/13);
+					if(i + top == MarkedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), Rect.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
+					if(i + top == SelectedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), Rect.W - Scrollbar.Rect.W - 4, 11);
 
 
 
 
-							//int center = (int)((dimensions->height-(4.5*2)) * pp);
+					//if(d.length >= 36000) d.length = 0;
+
+					//WCHAR *txt1 = new WCHAR[20];
+					//_stprintf(txt1, _T("%d:%02d:%02d"), d.length / 60 / 60, d.length / 60 % 60, d.length % 60);
+					//fromImg->DrawString(txt1, -1, font, RectF(2 + 220, (i*13), 50, 13), NULL ,&brushFontColor);
+					//delete[] txt1;
 
 
-							//fromImg->DrawLine(&penLine, dimensions->width -6 , 0, dimensions->width-6, dimensions->height);
+					//WCHAR *txt = new WCHAR[260];
+					//_stprintf(txt, _T("%d. %s"), top+i+1 , d.name.c_str());
+					//fromImg->DrawString(txt, -1, font, RectF(2, (i*13), 218, 13), NULL ,&brushFontColor);
+					//delete[] txt;
 
-							//fromImg->DrawImage(sliderHeadBg, dimensions->width-9, center);
+					this.DrawRow(RowList[i+top], i * 13);
 
-							//Graphics    graphics(hdc);
-							//graphics.DrawImage(&bmp, dimensions->x, dimensions->y, dimensions->width, dimensions->height);
+					//graphics.DrawString("0:00:00", new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2 + 220, i * 13);
 
-							//delete fromImg;
+					//graphics.DrawString((i+top+1).ToString() + ". " /*+ playlist[i+top]*/, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2, i*13);
+				}
 
-							//redraw = false;
-						}
-						//if(is_mouseDown) { calculate(); }
+
+
+				//float pp = (float)top / (playlist->count() - (dimensions->height-4)/13);
+
+
+
+
+				//int center = (int)((dimensions->height-(4.5*2)) * pp);
+
+
+				//fromImg->DrawLine(&penLine, dimensions->width -6 , 0, dimensions->width-6, dimensions->height);
+
+				//fromImg->DrawImage(sliderHeadBg, dimensions->width-9, center);
+
+				//Graphics    graphics(hdc);
+				//graphics.DrawImage(&bmp, dimensions->x, dimensions->y, dimensions->width, dimensions->height);
+
+				//delete fromImg;
+
+				//redraw = false;
+			}
+			//if(is_mouseDown) { calculate(); }
 
 
 
