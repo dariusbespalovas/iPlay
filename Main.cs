@@ -74,8 +74,8 @@ namespace iPlay
 			this.Paint += new PaintEventHandler(Main_Paint);
 
 
-			var xml = System.IO.File.ReadAllText("settings.xml");
-			var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
+			//var xml = System.IO.File.ReadAllText("settings.xml");
+			//var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
 
 			s1.Value = 0.8f;
 
