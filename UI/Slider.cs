@@ -196,7 +196,7 @@ namespace iPlay.UI
 				else
 				{
 
-					if (MousePosition < Rect.X + 1 + SL_SPACE) Value = 0.0001f;
+					if (MousePosition < Rect.X + 1 + SL_SPACE) Value = 0f;
 					if (MousePosition > Rect.X + Rect.W - 1 - SL_SPACE) Value = 1f;
 
 				}
@@ -217,7 +217,7 @@ namespace iPlay.UI
 				else
 				{
 
-					if (MousePosition < Rect.Y + 1 + SL_SPACE) Value = 0.0001f;
+					if (MousePosition < Rect.Y + 1 + SL_SPACE) Value = 0f;
 					if (MousePosition > Rect.Y + Rect.H - 1 - SL_SPACE) Value = 1f;
 
 				}
