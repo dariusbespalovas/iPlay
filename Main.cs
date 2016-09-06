@@ -10,6 +10,8 @@ namespace iPlay
 	{
 		private iPlayer player = new FmodPlayer();
 
+		UI.Slider sliderProgress = null;
+		UI.Slider sliderVolume = null;
 
 		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 488, H = 145 });
 
@@ -56,20 +58,19 @@ namespace iPlay
 
 			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
-			UI.Button b1 = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"Prev");
-			UI.Button b2 = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "Play");
-			UI.Button b3 = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 }, "Pause");
-			UI.Button b4 = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "Stop");
-			UI.Button b5 = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, "Next");
+			UI.Button buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"Prev");
+			UI.Button buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "Play");
+			UI.Button buttonPause = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 }, "Pause");
+			UI.Button buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "Stop");
+			UI.Button buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, "Next");
 
-			UI.Button b6 = new UI.Button(new UI.Rect2D { X = 467, Y = 3, W = 7, H = 7 }, "Minimize");
-			UI.Button b7 = new UI.Button(new UI.Rect2D { X = 477, Y = 3, W = 7, H = 7 }, "Close");
+			UI.Button buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 3, W = 7, H = 7 }, "Minimize");
+			UI.Button buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 3, W = 7, H = 7 }, "Close");
 
 
-			UI.Slider s1 = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
-			UI.Slider s2 = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
+			sliderProgress = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
+			sliderVolume = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
 
-			//UI.Slider s3 = new UI.Slider(new UI.Rect2D { X = 220, Y = 10, W = 7, H = 110 }, "Slider3", UI.Slider.SliderOrientation.Vertical);
 
 			UI.PlayListMenu<PlaylistItemModel> pm = new UI.PlayListMenu<PlaylistItemModel>(new UI.Rect2D { X = 198, Y = 4, W = 278, H = 108 }, playlist, playlistSetings);
 
@@ -77,35 +78,35 @@ namespace iPlay
 
 			p.AddChild(p2);
 
-			p.AddChild(b6);
-			p.AddChild(b7);
+			p.AddChild(buttonMinimize);
+			p.AddChild(buttonClose);
 
 
 			p2.AddChild(pm);
-			p2.AddChild(b1);
-			p2.AddChild(b2);
-			p2.AddChild(b3);
-			p2.AddChild(b4);
-			p2.AddChild(b5);
+			p2.AddChild(buttonPrev);
+			p2.AddChild(buttonPlay);
+			p2.AddChild(buttonPause);
+			p2.AddChild(buttonStop);
+			p2.AddChild(buttonNext);
 
-			p2.AddChild(s1);
-			p2.AddChild(s2);
+			p2.AddChild(sliderProgress);
+			p2.AddChild(sliderVolume);
 
 			//p2.AddChild(s3);
 
 
-			b1.Click += BtnClickHandler;
-			b2.Click += BtnClickHandler;
-			b3.Click += BtnClickHandler;
-			b4.Click += BtnClickHandler;
-			b5.Click += BtnClickHandler;
+			buttonPrev.Click += BtnClickHandler;
+			buttonPlay.Click += BtnClickHandler;
+			buttonPause.Click += BtnClickHandler;
+			buttonStop.Click += BtnClickHandler;
+			buttonNext.Click += BtnClickHandler;
 
-			b6.Click += BtnClickHandler;
-			b7.Click += BtnCloseHandler;
+			buttonMinimize.Click += BtnClickHandler;
+			buttonClose.Click += BtnCloseHandler;
 
 
-			s2.Change += VolumeChangeHandler;
-			s1.Change += ProgressChangeHandler;
+			sliderVolume.Change += VolumeChangeHandler;
+			sliderProgress.Change += ProgressChangeHandler;
 			//s3.Change += SliderChangeHandler;
 
 			pm.SelectionChanged += PlaylistSelectHandler;
@@ -116,7 +117,7 @@ namespace iPlay
 			//var xml = System.IO.File.ReadAllText("settings.xml");
 			//var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
 
-			s1.Value = 0.8f;
+			sliderProgress.Value = 0.8f;
 
 			//int a = 5;
 
@@ -188,6 +189,9 @@ namespace iPlay
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
+			sliderProgress.Value = player.GetProgress();
+			sliderVolume.Value = player.GetVolume();
+
 			this.Refresh();
 		}
 
