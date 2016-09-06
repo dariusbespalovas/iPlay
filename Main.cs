@@ -6,14 +6,14 @@ using System.Windows.Forms;
 
 namespace iPlay
 {
-	public partial class Main : Form
+	public partial class Main : CustomForm
 	{
 		private iPlayer player = new FmodPlayer();
 
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
-		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 488, H = 145 });
+		
 
 		private string btnClicked = "000";
 
@@ -21,7 +21,7 @@ namespace iPlay
 
 		public Main()
 		{
-			InitializeComponent();
+			
 
 
 			List<PlaylistItemModel> playlist = new List<PlaylistItemModel>();
@@ -76,10 +76,10 @@ namespace iPlay
 
 			//s3.Value = 0.3f;
 
-			p.AddChild(p2);
+			uiContainer.AddChild(p2);
 
-			p.AddChild(buttonMinimize);
-			p.AddChild(buttonClose);
+			uiContainer.AddChild(buttonMinimize);
+			uiContainer.AddChild(buttonClose);
 
 
 			p2.AddChild(pm);
@@ -121,7 +121,7 @@ namespace iPlay
 
 			//int a = 5;
 
-		  
+			InitializeComponent();
 		}
 
 
@@ -179,12 +179,8 @@ namespace iPlay
 
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			p.Draw(e);
-
 			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 40);
 			e.Graphics.DrawString(sliderResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 20);
-
-			//int a = 0;
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -200,40 +196,6 @@ namespace iPlay
 
 
 
-		private void Main_MouseDown(object sender, MouseEventArgs e)
-		{
-			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
-		}
-
-		private void Main_MouseUp(object sender, MouseEventArgs e)
-		{
-			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
-		}
-
-		private void Main_MouseMove(object sender, MouseEventArgs e)
-		{
-			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
-		}
-
-		private void Main_MouseWheel(object sender, MouseEventArgs e)
-		{
-			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseWheel, e));
-		}
-
-
-
-		private void Main_KeyPress(object sender, KeyPressEventArgs e)
-		{
-
-		}
-
-		private void Main_KeyPress2(object sender, KeyEventArgs e)
-		{
-			p.HandleKeyControlEvents(e);
-			//if (e.KeyCode == Keys.Down)
-			//{
-
-			//}
-		}
+		
 	}
 }

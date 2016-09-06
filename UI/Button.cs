@@ -19,7 +19,6 @@ namespace iPlay.UI
 		private SolidBrush testBrush = new SolidBrush(Color.FromArgb(200, 31, 31));
 		#endregion
 
-
 		public Button(Rect2D rect, string Name) : base(rect)
 		{
 			this.Name = Name;

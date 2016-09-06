@@ -43,18 +43,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(488, 145);
-			this.DoubleBuffered = true;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.KeyPreview = true;
 			this.Name = "Main";
 			this.Text = "iPlay";
-			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Main_MouseDown);
-			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_MouseMove);
-			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Main_MouseUp);
-			this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Main_MouseWheel);
-			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Main_KeyPress);
-			this.KeyPreview = true;
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyPress2);
 			this.ResumeLayout(false);
 
 		}

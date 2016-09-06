@@ -15,7 +15,7 @@ namespace iPlay.UI
 
 		#region drawing stuff
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
-		private Pen BorderPen = new Pen(Color.FromArgb(21, 21, 21));
+		private Pen BorderPen = new Pen(Color.FromArgb(121, 21, 21));
 		#endregion
 
 		public Container(Rect2D rect) : base(rect)
