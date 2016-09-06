@@ -51,6 +51,7 @@
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Main_MouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_MouseMove);
 			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Main_MouseUp);
+			this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Main_MouseWheel);
 			this.ResumeLayout(false);
 
 		}

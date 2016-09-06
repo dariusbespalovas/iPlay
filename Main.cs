@@ -190,5 +190,10 @@ namespace iPlay
 			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
 		}
 
+		private void Main_MouseWheel(object sender, MouseEventArgs e)
+		{
+			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseWheel, e));
+		}
+
 	}
 }

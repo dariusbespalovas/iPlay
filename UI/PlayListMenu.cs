@@ -64,6 +64,7 @@ namespace iPlay.UI
 		}
 
 
+
 		private void ScrollbarChange(object sender, EventArgs e)
 		{
 			this.top = (int)(Scrollbar.Value * (RowList.Count-1));
@@ -261,14 +262,36 @@ namespace iPlay.UI
 
 		public override void HandleMouseEvents(Events.MouseEvent e)
 		{
-			if(!Scrollbar.CheckBoundingBox(e))
+			if (!Scrollbar.CheckBoundingBox(e))
+			{
 				base.HandleMouseEvents(e);
+				if (CheckBoundingBox(e))
+				{
+					switch (e.Event)
+					{
+						case Events.MouseEvent.EventType.MouseWheel:
+							top -= e.Delta * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / 120;
+
+							if (top < 0) top = 0;
+							if (top > RowList.Count-1) top = RowList.Count - 1;
+
+
+
+							Scrollbar.Value = ((float)this.top / (this.RowList.Count-1));
+
+
+
+							break;
+					}
+				}
+			}
 
 			//if (!Nodes.Any(a => a.CheckBoundingBox(e)))
 			//	base.HandleMouseEvents(e);
 
 			Scrollbar.HandleMouseEvents(e);
 		}
+
 	}
 }
 

@@ -7,7 +7,8 @@ namespace iPlay.Events
 		{
 			MouseDown,
 			MouseUp,
-			MouseMove
+			MouseMove,
+			MouseWheel
 		}
 
 		public enum MouseButton
@@ -18,19 +19,22 @@ namespace iPlay.Events
 			Middle
 		}
 
+
+		public EventType Event { get; private set; }
+		public MouseButton Button { get; private set; }
+		public int X { get; private set; }
+		public int Y { get; private set; }
+		public int Delta { get; private set; }
+
 		public MouseEvent(EventType Event, System.Windows.Forms.MouseEventArgs e)
 		{
 			this.Event = Event;
 			this.Button = this.GetButtonType(e.Button);
 			this.X = e.X;
 			this.Y = e.Y;
+			this.Delta = e.Delta;
 		}
 
-
-		public EventType Event { get; private set; }
-		public MouseButton Button { get; private set; }
-		public int X { get; private set; }
-		public int Y { get; private set; }
 
 		private MouseButton GetButtonType(System.Windows.Forms.MouseButtons e)
 		{
