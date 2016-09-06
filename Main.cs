@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iPlay.Player;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,6 +8,9 @@ namespace iPlay
 {
 	public partial class Main : Form
 	{
+		private iPlayer player = new FmodPlayer();
+
+
 		private UI.Container p = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 488, H = 145 });
 
 		private string btnClicked = "000";
@@ -104,6 +108,7 @@ namespace iPlay
 			s2.Change += SliderChangeHandler;
 			//s3.Change += SliderChangeHandler;
 
+			pm.SelectionChanged += PlaylistSelectHandler;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
 
@@ -155,6 +160,15 @@ namespace iPlay
 			this.btnClicked = "C";
 		}
 
+		private void PlaylistSelectHandler(object sender, EventArgs e)
+		{
+
+			player.Play("asdf");
+		}
+
+
+
+
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
 			p.Draw(e);
@@ -195,5 +209,20 @@ namespace iPlay
 			p.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseWheel, e));
 		}
 
+
+
+		private void Main_KeyPress(object sender, KeyPressEventArgs e)
+		{
+
+		}
+
+		private void Main_KeyPress2(object sender, KeyEventArgs e)
+		{
+			p.HandleKeyControlEvents(e);
+			//if (e.KeyCode == Keys.Down)
+			//{
+
+			//}
+		}
 	}
 }

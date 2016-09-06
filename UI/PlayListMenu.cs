@@ -9,21 +9,23 @@ namespace iPlay.UI
 {
 	public class PlayListMenu<T> : UIElement
 	{
+		#region EventHandlers
+		public EventHandler SelectionChanged;
+		public EventHandler MarkerChanged;
+		#endregion
+
 		private Slider Scrollbar;
 
-		private int SelectedRow;
-		private int top;
 		private int MarkedRow;
-		private bool autoScroll;
-		private bool is_mouseDown;
-		private int lastMouse1, lastMouse2;
+		private int TopListRow;
+		private int SelectedRow;
+		private bool AutoScroll;
 		private bool redraw = true;
 
 		private List<T> RowList;
 		private List<TableSetingsModel> TableSettings;
 
 		private StringFormat stringFormat = new StringFormat();
-		
 
 		public class TableSetingsModel
 		{
@@ -32,8 +34,6 @@ namespace iPlay.UI
 			public StringAlignment Alignment { get; set; }
 		}
 
-
-
 		#region drawing stuff
 		//private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(131, 31, 31));
 		//private Pen BorderPen = new Pen(Color.Orange);
@@ -41,8 +41,6 @@ namespace iPlay.UI
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
 		private Pen BorderPen = new Pen(Color.FromArgb(31, 31, 31));
 		#endregion
-
-		//private bool UpdateLocations
 
 		public PlayListMenu(Rect2D Rect, List<T> list, List<TableSetingsModel> TableSettings) : base(Rect)
 		{
@@ -63,12 +61,10 @@ namespace iPlay.UI
 			Scrollbar.Rect.Y = this.Rect.Y;
 		}
 
-
-
 		private void ScrollbarChange(object sender, EventArgs e)
 		{
-			this.top = (int)(Scrollbar.Value * (RowList.Count-1));
-			if (this.top < 0) this.top = 0;
+			this.TopListRow = (int)(Scrollbar.Value * (RowList.Count-1));
+			if (this.TopListRow < 0) this.TopListRow = 0;
 		}
 
 		private void PlaylistClickedSingle(object sender, EventArgs e)
@@ -81,24 +77,26 @@ namespace iPlay.UI
 			HandleClickSelection(e, true);
 		}
 
-
 		private void HandleClickSelection(EventArgs e, bool IsDoubleClick)
 		{
 			if (((Events.MouseEvent)e).X >= Rect.X + 1 && ((Events.MouseEvent)e).X <= Rect.X + Rect.W - 13 &&
 					((Events.MouseEvent)e).Y >= Rect.Y && ((Events.MouseEvent)e).Y <= Rect.Y + Rect.H)
 			{
-				for (int i = 0; i < (Rect.H - 4) / 13 && i + top < RowList.Count; i++)
+				for (int i = 0; i < (Rect.H - 4) / 13 && i + TopListRow < RowList.Count; i++)
 				{
 					if (((Events.MouseEvent)e).Y >= Rect.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= Rect.Y + 2 + (i * 13) + 12)
 					{
-						SelectedRow = top + i;
-						if (IsDoubleClick)
-							MarkedRow = SelectedRow;
+						int LastSelection = MarkedRow;
+						MarkedRow = TopListRow + i;
+						if (IsDoubleClick && LastSelection == MarkedRow)
+						{
+							SelectedRow = MarkedRow;
+							SelectionChanged?.Invoke(this, e);
+						}
 					}
 				}
 			}
 		}
-
 
 		private void DrawRow(T t, int h)
 		{
@@ -123,6 +121,10 @@ namespace iPlay.UI
 			}
 		}
 
+
+
+
+
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			UpdateLocations();
@@ -131,134 +133,36 @@ namespace iPlay.UI
 			graphics.DrawRectangle(BorderPen, 0, 0, Rect.W - 1, Rect.H - 1);
 
 
-
-
-
-
-
-
-			//top = 2;
-			//SelectedRow = 5;
-			//MarkedRow = 7;
-
-
-
-
-
 			if (redraw)
 			{
-				//Bitmap bmp(dimensions->width, dimensions->height);
-				//Graphics *fromImg = Graphics::FromImage(&bmp);
-
 				SolidBrush  brushNowPlaying = new SolidBrush(Color.FromArgb(60, 80, 100));
-				//SolidBrush  brushFontColor(PLAYLIST_MENU_TEXT_COLOR);
-				//SolidBrush  sbrushSliderBackground(PLAYLIST_MENU_SLIDER_BACKGROUND_COLOR);
-				//SolidBrush  brushSlider(PLAYLIST_MENU_SLIDER_COLOR);
-				//SolidBrush  brushBackground(PLAYLIST_MENU_BACKGROUND_COLOR);
-				//Pen			penBorder(PLAYLIST_MENU_BORDER_COLOR);
 				Pen penBorderSelected = new Pen(Color.FromArgb(120, 120, 120));
-				//Pen			penLine(SLIDER_CENTER_LINE_COLOR);
-
-				//FontFamily  fontFamily(L"Ventouse");
-
-							
 
 				//song
-				for(int i = 0; i < (Rect.H-4)/13 && i+top < RowList.Count; i++)
+				for(int i = 0; i < (Rect.H-4)/13 && i+TopListRow < RowList.Count; i++)
 				{
+					if(i + TopListRow == SelectedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), Rect.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
+					if(i + TopListRow == MarkedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), Rect.W - Scrollbar.Rect.W - 4, 11);
 
-					//MusicFileData d;						
-					//d = playlist->getSong(i+top);
-
-					if(i + top == MarkedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), Rect.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
-					if(i + top == SelectedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), Rect.W - Scrollbar.Rect.W - 4, 11);
-
-
-
-
-					//if(d.length >= 36000) d.length = 0;
-
-					//WCHAR *txt1 = new WCHAR[20];
-					//_stprintf(txt1, _T("%d:%02d:%02d"), d.length / 60 / 60, d.length / 60 % 60, d.length % 60);
-					//fromImg->DrawString(txt1, -1, font, RectF(2 + 220, (i*13), 50, 13), NULL ,&brushFontColor);
-					//delete[] txt1;
-
-
-					//WCHAR *txt = new WCHAR[260];
-					//_stprintf(txt, _T("%d. %s"), top+i+1 , d.name.c_str());
-					//fromImg->DrawString(txt, -1, font, RectF(2, (i*13), 218, 13), NULL ,&brushFontColor);
-					//delete[] txt;
-
-					this.DrawRow(RowList[i+top], i * 13);
-
-					//graphics.DrawString("0:00:00", new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2 + 220, i * 13);
-
-					//graphics.DrawString((i+top+1).ToString() + ". " /*+ playlist[i+top]*/, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 9, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 2, i*13);
+					this.DrawRow(RowList[i+TopListRow], i * 13);
 				}
-
-
-
-				//float pp = (float)top / (playlist->count() - (dimensions->height-4)/13);
-
-
-
-
-				//int center = (int)((dimensions->height-(4.5*2)) * pp);
-
-
-				//fromImg->DrawLine(&penLine, dimensions->width -6 , 0, dimensions->width-6, dimensions->height);
-
-				//fromImg->DrawImage(sliderHeadBg, dimensions->width-9, center);
-
-				//Graphics    graphics(hdc);
-				//graphics.DrawImage(&bmp, dimensions->x, dimensions->y, dimensions->width, dimensions->height);
-
-				//delete fromImg;
 
 				//redraw = false;
 			}
-			//if(is_mouseDown) { calculate(); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);
 			Scrollbar.Draw(e);
 		}
+
+
+
+
+
+
+
+
+
 
 		public override void HandleMouseEvents(Events.MouseEvent e)
 		{
@@ -270,16 +174,12 @@ namespace iPlay.UI
 					switch (e.Event)
 					{
 						case Events.MouseEvent.EventType.MouseWheel:
-							top -= e.Delta * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / 120;
+							TopListRow -= e.Delta * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / 120;
 
-							if (top < 0) top = 0;
-							if (top > RowList.Count-1) top = RowList.Count - 1;
+							if (TopListRow < 0) TopListRow = 0;
+							if (TopListRow > RowList.Count-1) TopListRow = RowList.Count - 1;
 
-
-
-							Scrollbar.Value = ((float)this.top / (this.RowList.Count-1));
-
-
+							UpdateScrollbarValue();
 
 							break;
 					}
@@ -290,6 +190,44 @@ namespace iPlay.UI
 			//	base.HandleMouseEvents(e);
 
 			Scrollbar.HandleMouseEvents(e);
+		}
+
+		public override void HandleKeyControlEvents(System.Windows.Forms.KeyEventArgs e)
+		{
+			switch(e.KeyCode)
+			{
+				case System.Windows.Forms.Keys.Up:
+					MarkedRow--;
+					MarkerChanged?.Invoke(this, e);
+					break;
+
+				case System.Windows.Forms.Keys.Down:
+					MarkedRow++;
+					MarkerChanged?.Invoke(this, e);
+					break;
+
+				case System.Windows.Forms.Keys.Enter:
+					SelectedRow = MarkedRow;
+					SelectionChanged?.Invoke(this, e);
+					break;
+
+				case System.Windows.Forms.Keys.Delete:
+					RowList.RemoveAt(MarkedRow);
+					break;
+			}
+
+			if (MarkedRow < 0) MarkedRow = 0;
+			if (MarkedRow > RowList.Count - 1) MarkedRow = RowList.Count - 1;
+
+			if (MarkedRow < TopListRow) TopListRow = MarkedRow;
+			if (MarkedRow >= TopListRow + (Rect.H - 4) / 13) TopListRow = MarkedRow - (Rect.H - 4) / 13 + 1;
+
+			UpdateScrollbarValue();
+		}
+
+		private void UpdateScrollbarValue()
+		{
+			this.Scrollbar.Value = ((float)this.TopListRow / (this.RowList.Count - 1));
 		}
 
 	}

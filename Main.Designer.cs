@@ -52,6 +52,9 @@
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Main_MouseMove);
 			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Main_MouseUp);
 			this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Main_MouseWheel);
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Main_KeyPress);
+			this.KeyPreview = true;
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyPress2);
 			this.ResumeLayout(false);
 
 		}

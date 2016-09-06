@@ -123,6 +123,11 @@ namespace iPlay.UI
 			}
 
 		}
+
+		public virtual void HandleKeyControlEvents(KeyEventArgs e)
+		{
+
+		}
 		#endregion
 
 	}

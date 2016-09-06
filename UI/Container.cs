@@ -48,5 +48,12 @@ namespace iPlay.UI
 
 			Nodes.ForEach(fe => fe.HandleMouseEvents(e));
 		}
+
+		public override void HandleKeyControlEvents(KeyEventArgs e)
+		{
+			base.HandleKeyControlEvents(e);
+
+			Nodes.ForEach(fe => fe.HandleKeyControlEvents(e));
+		}
 	}
 }
