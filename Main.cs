@@ -104,8 +104,8 @@ namespace iPlay
 			b7.Click += BtnCloseHandler;
 
 
-			s1.Change += SliderChangeHandler;
-			s2.Change += SliderChangeHandler;
+			s2.Change += VolumeChangeHandler;
+			s1.Change += ProgressChangeHandler;
 			//s3.Change += SliderChangeHandler;
 
 			pm.SelectionChanged += PlaylistSelectHandler;
@@ -146,9 +146,16 @@ namespace iPlay
 			this.btnClicked = ((UI.Button)sender).Name;
 		}
 
-		private void SliderChangeHandler(object sender, EventArgs e)
+		private void VolumeChangeHandler(object sender, EventArgs e)
 		{
 			this.sliderResult = ((UI.Slider)sender).Value.ToString();
+			this.player.SetVolume(((UI.Slider)sender).Value);
+		}
+
+		private void ProgressChangeHandler(object sender, EventArgs e)
+		{
+			this.sliderResult = ((UI.Slider)sender).Value.ToString();
+			this.player.SetProgress(((UI.Slider)sender).Value);
 		}
 
 
@@ -163,7 +170,7 @@ namespace iPlay
 		private void PlaylistSelectHandler(object sender, EventArgs e)
 		{
 
-			player.Play("asdf");
+			player.Play("D:\\test.mp3");
 		}
 
 

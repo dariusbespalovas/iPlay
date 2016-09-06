@@ -9,5 +9,7 @@ namespace iPlay.Player
 	public interface iPlayer
 	{
 		void Play(string Path);
+		void SetVolume(float Value);
+		void SetProgress(float Value);
 	}
 }
