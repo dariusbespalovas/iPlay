@@ -55,6 +55,11 @@ namespace iPlay.UI
 			this.DoubleClick += PlaylistClickedDouble;
 		}
 
+		public T GetSelection()
+		{
+			return RowList[SelectedRow];
+		}
+
 		private void UpdateLocations()
 		{
 			Scrollbar.Rect.X = this.Rect.X + this.Rect.W - 7;

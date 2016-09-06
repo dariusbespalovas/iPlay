@@ -13,6 +13,8 @@ namespace iPlay.Player
 		private FMOD.Sound _sound = null;
 		private FMOD.Channel _channel = null;
 
+		private float Volume = 0f;
+
 		public FmodPlayer()
 		{
 			FMOD.Factory.System_Create(out _fmod);
@@ -30,7 +32,7 @@ namespace iPlay.Player
 
 
 
-			var c = _channel.setVolume(0.1f);
+			var c = _channel.setVolume(this.Volume);
 
 			//_sound = new Sound();
 
@@ -43,6 +45,7 @@ namespace iPlay.Player
 
 		public void SetVolume(float Value)
 		{
+			this.Volume = Value;
 			if (_channel != null) _channel.setVolume(Value);
 		}
 
@@ -59,10 +62,10 @@ namespace iPlay.Player
 
 		public float GetVolume()
 		{
-			float vol = 0;
-			if (_channel != null) { _channel.getVolume(out vol); return vol; }
+			//float vol = 0;
+			//if (_channel != null) { _channel.getVolume(out vol); return vol; }
 
-			return 0f;
+			return this.Volume;
 		}
 
 		public float GetProgress()

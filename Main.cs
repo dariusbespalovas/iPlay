@@ -9,6 +9,7 @@ namespace iPlay
 	public partial class Main : CustomForm
 	{
 		private iPlayer player = new FmodPlayer();
+		private List<PlaylistItemModel> playlist = null;
 
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
@@ -24,17 +25,29 @@ namespace iPlay
 			InitializeComponent();
 
 
-			List<PlaylistItemModel> playlist = new List<PlaylistItemModel>();
-			for(int i = 0; i < 500; i++)
+			playlist = new List<PlaylistItemModel>();
+
+
+			try
 			{
-				playlist.Add(new PlaylistItemModel
-				{
-					Name = "Name" + i.ToString(),
-					Path = "Path" + i.ToString(),
-					Duration = 0,
-					DurationString = "00:00:00"
-				});
+				playlist = Utils.XmlUtility.DeserializeFromXmlString<List<PlaylistItemModel>>(System.IO.File.ReadAllText("playlist.xml"));
 			}
+			catch(Exception e)
+			{
+			}
+
+
+			//System.IO.File.WriteAllText("playlist.xml", Utils.XmlUtility.SerializeToXmlString(playlist));
+			//for(int i = 0; i < 500; i++)
+			//{
+			//	playlist.Add(new PlaylistItemModel
+			//	{
+			//		Name = "Name" + i.ToString(),
+			//		Path = "Path" + i.ToString(),
+			//		Duration = 0,
+			//		DurationString = "00:00:00"
+			//	});
+			//}
 
 
 			List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel> playlistSetings = new List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel>
@@ -135,7 +148,10 @@ namespace iPlay
 
 			string s = Utils.XmlUtility.SerializeToXmlString(Settings.Instance);
 
+
 			System.IO.File.WriteAllText("settings.xml", s);
+
+			System.IO.File.WriteAllText("playlist.xml", Utils.XmlUtility.SerializeToXmlString(playlist));
 
 
 			Application.Exit();
@@ -170,8 +186,11 @@ namespace iPlay
 
 		private void PlaylistSelectHandler(object sender, EventArgs e)
 		{
+			UI.PlayListMenu<PlaylistItemModel> pm = (UI.PlayListMenu<PlaylistItemModel>)sender;
 
-			player.Play("D:\\test.mp3");
+			
+
+			player.Play(pm.GetSelection().Path);
 		}
 
 
@@ -191,11 +210,24 @@ namespace iPlay
 			this.Refresh();
 		}
 
+		private void Main_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+			foreach (string file in files)
+			{
+				playlist.Add(new PlaylistItemModel
+				{
+					Name = file,
+					Path = file,
+					Duration = 0,
+					DurationString = "00:00:00"
+				});
+			}
+		}
 
-
-
-
-
-		
+		private void Main_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.All;
+		}
 	}
 }
