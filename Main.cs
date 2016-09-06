@@ -21,7 +21,7 @@ namespace iPlay
 
 		public Main()
 		{
-			
+			InitializeComponent();
 
 
 			List<PlaylistItemModel> playlist = new List<PlaylistItemModel>();
@@ -55,6 +55,7 @@ namespace iPlay
 
 			};
 
+			this.uiContainer = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = this.Width, H = this.Height });
 
 			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
@@ -121,7 +122,6 @@ namespace iPlay
 
 			//int a = 5;
 
-			InitializeComponent();
 		}
 
 
