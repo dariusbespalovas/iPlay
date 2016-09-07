@@ -11,14 +11,22 @@ namespace iPlay
 		private iPlayer player = new FmodPlayer();
 		private List<PlaylistItemModel> playlist = null;
 
+
+
+		UI.Container p2;
+
+		UI.Button buttonPrev;
+		UI.Button buttonPlay;
+		UI.Button buttonPause;
+		UI.Button buttonStop;
+		UI.Button buttonNext;
+
+		UI.Button buttonMinimize;
+		UI.Button buttonClose;
+
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
-		
-
-		private string btnClicked = "000";
-
-		private string sliderResult = "010";
 
 		public Main()
 		{
@@ -70,16 +78,16 @@ namespace iPlay
 
 			this.uiContainer = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = this.Width, H = this.Height });
 
-			UI.Container p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
+			p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
-			UI.Button buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"Prev");
-			UI.Button buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "Play");
-			UI.Button buttonPause = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 }, "Pause");
-			UI.Button buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "Stop");
-			UI.Button buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, "Next");
+			buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"<<");
+			buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "|>");
+			buttonPause = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 }, "||");
+			buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "O");
+			buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, ">>");
 
-			UI.Button buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 3, W = 7, H = 7 }, "Minimize");
-			UI.Button buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 3, W = 7, H = 7 }, "Close");
+			buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
+			buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
 
 
 			sliderProgress = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
@@ -110,9 +118,9 @@ namespace iPlay
 
 
 			buttonPrev.Click += BtnClickHandler;
-			buttonPlay.Click += BtnClickHandler;
-			buttonPause.Click += BtnClickHandler;
-			buttonStop.Click += BtnClickHandler;
+			buttonPlay.Click += BtnPlayClickHandler;
+			buttonPause.Click += BtnPauseClickHandler;
+			buttonStop.Click += BtnStopClickHandler;
 			buttonNext.Click += BtnClickHandler;
 
 			buttonMinimize.Click += BtnMinimizeHandler;
@@ -163,31 +171,52 @@ namespace iPlay
 		}
 
 
+		private void BtnPlayClickHandler(object sender, EventArgs e)
+		{
+			player.Play();
+		}
+
+		private void BtnPauseClickHandler(object sender, EventArgs e)
+		{
+			player.Pause();
+		}
+
+		private void BtnStopClickHandler(object sender, EventArgs e)
+		{
+			player.Stop();
+		}
+
+		private void BtnRepeatClickHandler(object sender, EventArgs e)
+		{
+			player.Repeat();
+		}
+
+
+
+
+
+
+
+
+
+
 		private void BtnClickHandler(object sender, EventArgs e)
 		{
-			this.btnClicked = ((UI.Button)sender).Name;
+			//this.btnClicked = ((UI.Button)sender).Name;
 		}
+
 
 		private void VolumeChangeHandler(object sender, EventArgs e)
 		{
-			this.sliderResult = ((UI.Slider)sender).Value.ToString();
 			this.player.SetVolume(((UI.Slider)sender).Value);
 		}
 
 		private void ProgressChangeHandler(object sender, EventArgs e)
 		{
-			this.sliderResult = ((UI.Slider)sender).Value.ToString();
 			this.player.SetProgress(((UI.Slider)sender).Value);
 		}
 
 
-		private void PanelClickHandler(object sender, EventArgs e)
-		{
-			//this.btnClicked = ((UI.Button)sender).Name;
-			//System.Windows.Forms.MessageBox.Show("panel click");
-
-			this.btnClicked = "C";
-		}
 
 		private void PlaylistSelectHandler(object sender, EventArgs e)
 		{
@@ -205,8 +234,7 @@ namespace iPlay
 
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			e.Graphics.DrawString(btnClicked, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 40);
-			e.Graphics.DrawString(sliderResult, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.SansSerif), 20, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), 30, 20);
+			
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

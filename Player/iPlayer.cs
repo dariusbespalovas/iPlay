@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace iPlay.Player
+﻿namespace iPlay.Player
 {
 	public interface iPlayer
 	{
@@ -13,6 +7,11 @@ namespace iPlay.Player
 		
 		void SetVolume(float Value);
 		void SetProgress(float Value);
+
+		void Play();
+		void Pause();
+		void Stop();
+		void Repeat();
 
 		float GetVolume();
 		float GetProgress();

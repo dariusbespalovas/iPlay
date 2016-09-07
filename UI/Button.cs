@@ -32,7 +32,7 @@ namespace iPlay.UI
 
 			graphics.FillRectangle(testBrush, 0 + Rect.W / 3, 0 + Rect.H / 3, Rect.W / 3, Rect.H / 3);
 
-			//e.Graphics.DrawString("*", new Font(new FontFamily(GenericFontFamilies.SansSerif), 10, FontStyle.Bold), new SolidBrush(Color.FromArgb(240, 240, 240)), Rect.X, Rect.Y);
+			//graphics.DrawString(Name, new Font(new FontFamily(GenericFontFamilies.SansSerif), 7, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 0, 0);
 
 
 			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);

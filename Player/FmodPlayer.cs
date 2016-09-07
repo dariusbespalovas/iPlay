@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FMOD;
 
 namespace iPlay.Player
@@ -41,7 +38,7 @@ namespace iPlay.Player
 				//channel->addDSP(FMOD_CHANNELCONTROL_DSP_TAIL, dsp);
 				_channel.setVolume(this.Volume);
 
-				this.Name = Path;
+				this.Name = Path.Split(new char[1] { '\\' }).Reverse().ToArray()[0];
 			}
 
 			is_ok = true;
@@ -191,6 +188,38 @@ namespace iPlay.Player
 
 
 			return tagResult;
+		}
+
+		public void Play()
+		{
+			if (is_ok)
+			{
+				_channel.setPaused(false);
+				this.Paused = false;
+			}
+		}
+
+		public void Pause()
+		{
+			if (is_ok)
+			{
+				_channel.setPaused(true);
+				this.Paused = true;
+			}
+		}
+
+		public void Stop()
+		{
+			if (is_ok)
+			{
+				this.Pause();
+				_channel.setPosition(0, TIMEUNIT.MS);
+			}
+		}
+
+		public void Repeat()
+		{
+			this.RepeatEnabled = !this.RepeatEnabled;
 		}
 	}
 }
