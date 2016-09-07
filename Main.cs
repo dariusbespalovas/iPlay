@@ -61,7 +61,7 @@ namespace iPlay
 
 				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
 				{
-					FieldName = "DurationString",
+					FieldName = "DurationFormated",
 					Width = 55,
 					Alignment = StringAlignment.Far
 				}
@@ -219,8 +219,7 @@ namespace iPlay
 				{
 					Name = file,
 					Path = file,
-					Duration = 0,
-					DurationString = "00:00:00"
+					Duration = 256,
 				});
 			}
 		}
