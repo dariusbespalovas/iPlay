@@ -14,6 +14,11 @@ namespace iPlay.Player
 		private FMOD.Channel _channel = null;
 
 		private float Volume = 0f;
+		private bool Paused = false;
+		private bool RepeatEnabled = false;
+		private bool IsUpToDate = true;
+		private bool is_ok = true;
+		private string Name = "";
 
 		public FmodPlayer()
 		{
@@ -21,25 +26,27 @@ namespace iPlay.Player
 			_fmod.init(32, INITFLAGS.NORMAL, (IntPtr)0);
 		}
 
-		public void Play(string Path)
+		public bool LoadTrack(string Path)
 		{
-			if (_channel != null) _channel.stop();
-			if (_sound != null) _sound.release();
+			if (is_ok)
+			{
+				is_ok = false;
 
-			var a = _fmod.createStream(Path, MODE.ACCURATETIME, out this._sound);
+				if (_channel != null) _channel.stop();
+				if (_sound != null) _sound.release();
 
-			var b = _fmod.playSound(_sound, null, false, out _channel);
+				_fmod.createStream(Path, MODE.LOOP_BIDI | MODE._2D | MODE.ACCURATETIME, out this._sound);
+				_fmod.playSound(_sound, null, false, out _channel);
 
+				//channel->addDSP(FMOD_CHANNELCONTROL_DSP_TAIL, dsp);
+				_channel.setVolume(this.Volume);
 
+				this.Name = Path;
+			}
 
-			var c = _channel.setVolume(this.Volume);
+			is_ok = true;
 
-			//_sound = new Sound();
-
-			//_channel = new Channel();
-
-
-			//throw new NotImplementedException();
+			return IsPlaying();
 		}
 
 
@@ -84,6 +91,106 @@ namespace iPlay.Player
 			}
 
 			return 0f;
+		}
+
+
+		public string GetName()
+		{
+			string fullName = "N/A";
+
+			if (is_ok && IsPlaying())
+			{
+				string artist = GetTag("ARTIST");
+				string title = GetTag("TITLE");
+
+				fullName = artist + (string.IsNullOrEmpty(artist) ? "" : " - ") + title;
+
+				fullName = string.IsNullOrEmpty(fullName) ? this.Name : fullName;
+			}
+
+			return fullName;
+		}
+
+		public bool IsPlaying()
+		{
+			bool isPlay = false;
+
+			if(_channel != null)
+				_channel.isPlaying(out isPlay);
+
+			return isPlay;
+		}
+
+
+		public int GetLength()
+		{
+			uint lenght = 0;
+
+			if (_sound != null)
+			{
+				_sound.getLength(out lenght, TIMEUNIT.MS);
+			}
+
+			return (int)(lenght / 1000);
+		}
+
+
+		private string GetTag(string tagName)
+		{
+			string tagResult = "";
+
+			FMOD.TAG tag;
+
+			_sound.getTag(tagName, 0, out tag);
+
+			//switch (tag.datatype)
+			//{
+			//	case FMOD.TAGDATATYPE.INT:
+			//		//return wstring(AsString(*((int *) tag.data)));
+			//		OutputDebugStringA("INT\n"); break;
+			//	case FMOD.TAGDATATYPE.FLOAT:
+			//		//return wstring(AsString(*((float *) tag.data)));
+			//		OutputDebugStringA("FLOAT\n"); break;
+			//	case FMOD.TAGDATATYPE.STRING:
+			//		//return ToUnicode((const char *) tag.data, CHARSET_WIN1250);// + atoi(GetUserLocale(LOCALE_IDEFAULTANSICODEPAGE)) - 1250);
+			//		//OutputDebugStringA("STRING\n"); break;
+			//		break;
+			//	case FMOD.TAGDATATYPE.STRING_UTF16:
+			//	case FMOD.TAGDATATYPE.STRING_UTF16BE:
+			//	case FMOD.TAGDATATYPE.STRING_UTF8:
+			//		OutputDebugStringA("WSTRING\n"); break;
+			//	//return FromUnicode(WString((const wchar *) tag.data));
+			//	//return wstring((const wchar *) tag.data);
+
+			//	//tag.data;
+			//}
+
+
+
+
+
+
+
+
+
+
+
+			if (tag.datatype == FMOD.TAGDATATYPE.STRING)
+			{
+				tagResult = System.Runtime.InteropServices.Marshal.PtrToStringAuto(tag.data);
+			}
+
+
+
+
+
+
+
+
+
+
+
+			return tagResult;
 		}
 	}
 }

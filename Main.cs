@@ -115,7 +115,7 @@ namespace iPlay
 			buttonStop.Click += BtnClickHandler;
 			buttonNext.Click += BtnClickHandler;
 
-			buttonMinimize.Click += BtnClickHandler;
+			buttonMinimize.Click += BtnMinimizeHandler;
 			buttonClose.Click += BtnCloseHandler;
 
 
@@ -157,6 +157,11 @@ namespace iPlay
 			Application.Exit();
 		}
 
+		private void BtnMinimizeHandler(object sender, EventArgs e)
+		{
+			this.WindowState = FormWindowState.Minimized;
+		}
+
 
 		private void BtnClickHandler(object sender, EventArgs e)
 		{
@@ -188,9 +193,11 @@ namespace iPlay
 		{
 			UI.PlayListMenu<PlaylistItemModel> pm = (UI.PlayListMenu<PlaylistItemModel>)sender;
 
-			
+			player.LoadTrack(pm.GetSelection().Path);
 
-			player.Play(pm.GetSelection().Path);
+			pm.GetSelection().Duration = (player.GetLength() > 359999) ? 0 : player.GetLength();
+
+			pm.GetSelection().Name = player.GetName();
 		}
 
 
@@ -219,7 +226,7 @@ namespace iPlay
 				{
 					Name = file,
 					Path = file,
-					Duration = 256,
+					Duration = 0,
 				});
 			}
 		}
