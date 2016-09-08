@@ -5,6 +5,11 @@ namespace iPlay
 {
 	public class CustomForm : Form
 	{
+		private UI.Container uiForm;
+		
+		protected UI.Button buttonMinimize;
+		protected UI.Button buttonClose;
+
 		protected UI.Container uiContainer;
 
 		private bool mouseDown;
@@ -13,29 +18,40 @@ namespace iPlay
 		protected CustomForm()
 		{
 			InitializeComponent();
+
+			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = this.Width, H = this.Height });
+			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
+
+			buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
+			buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
+
+			this.uiForm
+				.AddChild(buttonMinimize)
+				.AddChild(buttonClose)
+				.AddChild(uiContainer);
 		}
 
 		private void CustomForm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
-			uiContainer?.Draw(e);
+			uiForm?.Draw(e);
 		}
 
 		private void CustomForm_MouseDown(object sender, MouseEventArgs e)
 		{
-			if(e.X < (uiContainer.Rect.W - 22) && e.Y < 12)
+			if(e.X < (uiForm.Rect.W - 22) && e.Y < 12)
 			{
 				mouseDown = true;
 				lastLocation = e.Location;
 			}
 
-			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
+			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
 		}
 
 		private void CustomForm_MouseUp(object sender, MouseEventArgs e)
 		{
 			mouseDown = false;
 
-			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
+			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
 		}
 
 		private void CustomForm_MouseMove(object sender, MouseEventArgs e)
@@ -48,14 +64,13 @@ namespace iPlay
 				this.Update();
 			}
 
-			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
+			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
 		}
 
 		private void CustomForm_MouseWheel(object sender, MouseEventArgs e)
 		{
 			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseWheel, e));
 		}
-
 
 		private void CustomForm_KeyPress(object sender, KeyPressEventArgs e)
 		{
@@ -64,16 +79,13 @@ namespace iPlay
 
 		private void CustomForm_KeyPress2(object sender, KeyEventArgs e)
 		{
-			uiContainer?.HandleKeyControlEvents(e);
+			uiForm?.HandleKeyControlEvents(e);
 		}
 
 		private void InitializeComponent()
 		{
 			this.SuspendLayout();
-			// 
-			// CustomForm
-			// 
-			//this.ClientSize = new System.Drawing.Size(386, 258);
+
 			this.Name = "CustomForm";
 
 			this.DoubleBuffered = true;
@@ -90,7 +102,6 @@ namespace iPlay
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CustomForm_KeyPress2);
 
 			this.ResumeLayout(false);
-
 		}
 	}
 }

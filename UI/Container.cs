@@ -23,12 +23,14 @@ namespace iPlay.UI
 			this.Nodes = new List<UIElement>();
 		}
 
-		public void AddChild(UIElement item)
+		public Container AddChild(UIElement item)
 		{
 			item.Rect.X += this.Rect.X;
 			item.Rect.Y += this.Rect.Y;
 
 			this.Nodes.Add(item);
+
+			return this;
 		}
 
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)

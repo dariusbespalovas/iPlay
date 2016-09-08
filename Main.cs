@@ -19,16 +19,12 @@ namespace iPlay
 		UI.Button buttonStop;
 		UI.Button buttonNext;
 
-		UI.Button buttonMinimize;
-		UI.Button buttonClose;
-
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
 		public Main()
 		{
 			InitializeComponent();
-
 
 			playlist = new List<PlaylistItemModel>();
 
@@ -45,20 +41,6 @@ namespace iPlay
 			this.StartPosition = FormStartPosition.Manual;
 			this.Location = new Point(Settings.Instance.PlayerSettings.MainWindow.WindowX, Settings.Instance.PlayerSettings.MainWindow.WindowY);
 
-
-			//System.IO.File.WriteAllText("playlist.xml", Utils.XmlUtility.SerializeToXmlString(playlist));
-			//for(int i = 0; i < 500; i++)
-			//{
-			//	playlist.Add(new PlaylistItemModel
-			//	{
-			//		Name = "Name" + i.ToString(),
-			//		Path = "Path" + i.ToString(),
-			//		Duration = 0,
-			//		DurationString = "00:00:00"
-			//	});
-			//}
-
-
 			List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel> playlistSetings = new List<UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel>
 			{
 				new UI.PlayListMenu<PlaylistItemModel>.TableSetingsModel()
@@ -74,12 +56,7 @@ namespace iPlay
 					Width = 55,
 					Alignment = StringAlignment.Far
 				}
-
 			};
-
-			this.uiContainer = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = this.Width, H = this.Height });
-
-			p2 = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
 			buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"<<");
 			buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "|>");
@@ -87,36 +64,19 @@ namespace iPlay
 			buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "O");
 			buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, ">>");
 
-			buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
-			buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
-
-
 			sliderProgress = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
 			sliderVolume = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
 
-
 			UI.PlayListMenu<PlaylistItemModel> pm = new UI.PlayListMenu<PlaylistItemModel>(new UI.Rect2D { X = 198, Y = 4, W = 278, H = 108 }, playlist, playlistSetings);
 
-			//s3.Value = 0.3f;
-
-			uiContainer.AddChild(p2);
-
-			uiContainer.AddChild(buttonMinimize);
-			uiContainer.AddChild(buttonClose);
-
-
-			p2.AddChild(pm);
-			p2.AddChild(buttonPrev);
-			p2.AddChild(buttonPlay);
-			p2.AddChild(buttonPause);
-			p2.AddChild(buttonStop);
-			p2.AddChild(buttonNext);
-
-			p2.AddChild(sliderProgress);
-			p2.AddChild(sliderVolume);
-
-			//p2.AddChild(s3);
-
+			uiContainer.AddChild(pm)
+				.AddChild(buttonPrev)
+				.AddChild(buttonPlay)
+				.AddChild(buttonPause)
+				.AddChild(buttonStop)
+				.AddChild(buttonNext)
+				.AddChild(sliderProgress)
+				.AddChild(sliderVolume);
 
 			buttonPrev.Click += BtnClickHandler;
 			buttonPlay.Click += BtnPlayClickHandler;
@@ -127,25 +87,15 @@ namespace iPlay
 			buttonMinimize.Click += BtnMinimizeHandler;
 			buttonClose.Click += BtnCloseHandler;
 
-
 			sliderVolume.Change += VolumeChangeHandler;
 			sliderProgress.Change += ProgressChangeHandler;
-			//s3.Change += SliderChangeHandler;
 
 			pm.SelectionChanged += PlaylistSelectHandler;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
 
-
-			//var xml = System.IO.File.ReadAllText("settings.xml");
-			//var sss = Utils.XmlUtility.DeserializeFromXmlString<Settings>(xml);
-
 			sliderProgress.Value = 0.8f;
-
-			//int a = 5;
-
 		}
-
 
 		private void BtnCloseHandler(object sender, EventArgs e)
 		{
@@ -162,7 +112,6 @@ namespace iPlay
 		{
 			this.WindowState = FormWindowState.Minimized;
 		}
-
 
 		private void BtnPlayClickHandler(object sender, EventArgs e)
 		{
@@ -184,20 +133,10 @@ namespace iPlay
 			player.Repeat();
 		}
 
-
-
-
-
-
-
-
-
-
 		private void BtnClickHandler(object sender, EventArgs e)
 		{
 			//this.btnClicked = ((UI.Button)sender).Name;
 		}
-
 
 		private void VolumeChangeHandler(object sender, EventArgs e)
 		{
@@ -209,8 +148,6 @@ namespace iPlay
 			this.player.SetProgress(((UI.Slider)sender).Value);
 		}
 
-
-
 		private void PlaylistSelectHandler(object sender, EventArgs e)
 		{
 			UI.PlayListMenu<PlaylistItemModel> pm = (UI.PlayListMenu<PlaylistItemModel>)sender;
@@ -221,9 +158,6 @@ namespace iPlay
 
 			pm.GetSelection().Name = player.GetName();
 		}
-
-
-
 
 		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
