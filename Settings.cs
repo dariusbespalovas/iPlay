@@ -6,27 +6,45 @@ using System.Threading.Tasks;
 
 namespace iPlay
 {
-    public sealed class Settings
-    {
-        static readonly Settings _instance = new Settings();
+	public sealed class Settings
+	{
+		static readonly Settings _instance = new Settings();
 
-        public static Settings Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
+		public static Settings Instance
+		{
+			get
+			{
+				return _instance;
+			}
+		}
 
-        public Settings()
-        {
+		public Settings()
+		{
+			this.PlayerSettings = new PlayerSettings();
+		}
 
-        }
+		public PlayerSettings PlayerSettings { get; set; }
+	}
 
-        public int WindowX { get; set; }
-        public int WindowY { get; set; }
-    }
+	public class PlayerSettings
+	{
+		public string PlaylistFilePath { get; set; }
 
+		public WindowSettings MainWindow { get; set; }
+
+
+		public PlayerSettings()
+		{
+			this.PlaylistFilePath = "playlist.xml";
+			this.MainWindow = new WindowSettings();
+		}
+	}
+
+	public class WindowSettings
+	{
+		public int WindowX { get; set; }
+		public int WindowY { get; set; }
+	}
 
 }
 

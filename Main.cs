@@ -11,8 +11,6 @@ namespace iPlay
 		private iPlayer player = new FmodPlayer();
 		private List<PlaylistItemModel> playlist = null;
 
-
-
 		UI.Container p2;
 
 		UI.Button buttonPrev;
@@ -27,7 +25,6 @@ namespace iPlay
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
-
 		public Main()
 		{
 			InitializeComponent();
@@ -35,14 +32,18 @@ namespace iPlay
 
 			playlist = new List<PlaylistItemModel>();
 
+			Settings.Instance.PlayerSettings = Utils.XmlUtility.DeserializeFromXmlString<PlayerSettings>(System.IO.File.ReadAllText("settings.xml"));
 
 			try
 			{
-				playlist = Utils.XmlUtility.DeserializeFromXmlString<List<PlaylistItemModel>>(System.IO.File.ReadAllText("playlist.xml"));
+				playlist = Utils.XmlUtility.DeserializeFromXmlString<List<PlaylistItemModel>>(System.IO.File.ReadAllText(Settings.Instance.PlayerSettings.PlaylistFilePath));
 			}
 			catch(Exception e)
 			{
 			}
+
+			this.StartPosition = FormStartPosition.Manual;
+			this.Location = new Point(Settings.Instance.PlayerSettings.MainWindow.WindowX, Settings.Instance.PlayerSettings.MainWindow.WindowY);
 
 
 			//System.IO.File.WriteAllText("playlist.xml", Utils.XmlUtility.SerializeToXmlString(playlist));
@@ -148,19 +149,11 @@ namespace iPlay
 
 		private void BtnCloseHandler(object sender, EventArgs e)
 		{
-			var a = this.Top;
-			var b = this.Left;
+			Settings.Instance.PlayerSettings.MainWindow.WindowX = this.Left;
+			Settings.Instance.PlayerSettings.MainWindow.WindowY = this.Top;
 
-			Settings.Instance.WindowX = this.Left;
-			Settings.Instance.WindowY = this.Top;
-
-			string s = Utils.XmlUtility.SerializeToXmlString(Settings.Instance);
-
-
-			System.IO.File.WriteAllText("settings.xml", s);
-
-			System.IO.File.WriteAllText("playlist.xml", Utils.XmlUtility.SerializeToXmlString(playlist));
-
+			System.IO.File.WriteAllText("settings.xml", Utils.XmlUtility.SerializeToXmlString(Settings.Instance.PlayerSettings));
+			System.IO.File.WriteAllText(Settings.Instance.PlayerSettings.PlaylistFilePath, Utils.XmlUtility.SerializeToXmlString(playlist));
 
 			Application.Exit();
 		}

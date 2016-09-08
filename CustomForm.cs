@@ -1,10 +1,14 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace iPlay
 {
 	public class CustomForm : Form
 	{
 		protected UI.Container uiContainer;
+
+		private bool mouseDown;
+		private Point lastLocation;
 
 		protected CustomForm()
 		{
@@ -18,16 +22,32 @@ namespace iPlay
 
 		private void CustomForm_MouseDown(object sender, MouseEventArgs e)
 		{
+			if(e.X < (uiContainer.Rect.W - 22) && e.Y < 12)
+			{
+				mouseDown = true;
+				lastLocation = e.Location;
+			}
+
 			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
 		}
 
 		private void CustomForm_MouseUp(object sender, MouseEventArgs e)
 		{
+			mouseDown = false;
+
 			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
 		}
 
 		private void CustomForm_MouseMove(object sender, MouseEventArgs e)
 		{
+			if(mouseDown)
+			{
+				this.Location = new Point(
+					(this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+
+				this.Update();
+			}
+
 			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
 		}
 
