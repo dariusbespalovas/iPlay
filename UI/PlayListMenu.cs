@@ -47,7 +47,7 @@ namespace iPlay.UI
 			this.RowList = list;
 			this.TableSettings = TableSettings;
 
-			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.X, Y = this.Rect.Y, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
+			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.W - 7, Y = 0, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
 			Scrollbar.Change += ScrollbarChange;
 
 
@@ -60,11 +60,11 @@ namespace iPlay.UI
 			return RowList[SelectedRow];
 		}
 
-		private void UpdateLocations()
-		{
-			Scrollbar.Rect.X = this.Rect.X + this.Rect.W - 7;
-			Scrollbar.Rect.Y = this.Rect.Y;
-		}
+		//private void UpdateLocations()
+		//{
+		//	Scrollbar.Rect.X = this.Rect.X + this.Rect.W - 7;
+		//	Scrollbar.Rect.Y = this.Rect.Y;
+		//}
 
 		private void ScrollbarChange(object sender, EventArgs e)
 		{
@@ -84,12 +84,12 @@ namespace iPlay.UI
 
 		private void HandleClickSelection(EventArgs e, bool IsDoubleClick)
 		{
-			if (((Events.MouseEvent)e).X >= Rect.X + 1 && ((Events.MouseEvent)e).X <= Rect.X + Rect.W - 13 &&
-					((Events.MouseEvent)e).Y >= Rect.Y && ((Events.MouseEvent)e).Y <= Rect.Y + Rect.H)
+			if (((Events.MouseEvent)e).X >= RectScreenSpace.X + 1 && ((Events.MouseEvent)e).X <= RectScreenSpace.X + RectScreenSpace.W - 13 &&
+					((Events.MouseEvent)e).Y >= RectScreenSpace.Y && ((Events.MouseEvent)e).Y <= RectScreenSpace.Y + RectScreenSpace.H)
 			{
-				for (int i = 0; i < (Rect.H - 4) / 13 && i + TopListRow < RowList.Count; i++)
+				for (int i = 0; i < (RectScreenSpace.H - 4) / 13 && i + TopListRow < RowList.Count; i++)
 				{
-					if (((Events.MouseEvent)e).Y >= Rect.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= Rect.Y + 2 + (i * 13) + 12)
+					if (((Events.MouseEvent)e).Y >= RectScreenSpace.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= RectScreenSpace.Y + 2 + (i * 13) + 12)
 					{
 						int LastSelection = MarkedRow;
 						MarkedRow = TopListRow + i;
@@ -132,10 +132,10 @@ namespace iPlay.UI
 
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
-			UpdateLocations();
+			//UpdateLocations();
 
-			graphics.FillRectangle(BackgroudBrush, 0, 0, Rect.W, Rect.H);
-			graphics.DrawRectangle(BorderPen, 0, 0, Rect.W - 1, Rect.H - 1);
+			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
+			graphics.DrawRectangle(BorderPen, 0, 0, RectScreenSpace.W - 1, RectScreenSpace.H - 1);
 
 
 			if (redraw)
@@ -144,10 +144,10 @@ namespace iPlay.UI
 				Pen penBorderSelected = new Pen(Color.FromArgb(120, 120, 120));
 
 				//song
-				for(int i = 0; i < (Rect.H-4)/13 && i+TopListRow < RowList.Count; i++)
+				for(int i = 0; i < (RectScreenSpace.H-4)/13 && i+TopListRow < RowList.Count; i++)
 				{
-					if(i + TopListRow == SelectedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), Rect.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
-					if(i + TopListRow == MarkedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), Rect.W - Scrollbar.Rect.W - 4, 11);
+					if(i + TopListRow == SelectedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), RectScreenSpace.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
+					if(i + TopListRow == MarkedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), RectScreenSpace.W - Scrollbar.Rect.W - 4, 11);
 
 					this.DrawRow(RowList[i+TopListRow], i * 13);
 				}
@@ -156,13 +156,17 @@ namespace iPlay.UI
 			}
 
 
-			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);
+			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 			Scrollbar.Draw(e);
 		}
 
 
 
-
+		public override void Update(UIElement parrent)
+		{
+			base.Update(parrent);
+			Scrollbar.Update(this);
+		}
 
 
 

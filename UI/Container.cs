@@ -25,8 +25,8 @@ namespace iPlay.UI
 
 		public Container AddChild(UIElement item)
 		{
-			item.Rect.X += this.Rect.X;
-			item.Rect.Y += this.Rect.Y;
+			//item.Rect.X += this.Rect.X;
+			//item.Rect.Y += this.Rect.Y;
 
 			this.Nodes.Add(item);
 
@@ -36,11 +36,17 @@ namespace iPlay.UI
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 			// draw self
-			e.Graphics.FillRectangle(BackgroudBrush, Rect.X, Rect.Y, Rect.W, Rect.H);
-			e.Graphics.DrawRectangle(BorderPen, Rect.X, Rect.Y, Rect.W - 1, Rect.H - 1);
+			e.Graphics.FillRectangle(BackgroudBrush, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W, RectScreenSpace.H);
+			e.Graphics.DrawRectangle(BorderPen, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W - 1, RectScreenSpace.H - 1);
 
 			// draw childs
 			Nodes.ForEach(fe => fe.Draw(e));
+		}
+
+		public override void Update(UIElement parrent)
+		{
+			base.Update(parrent);
+			Nodes.ForEach(fe => fe.Update(this));
 		}
 
 		public override void HandleMouseEvents(Events.MouseEvent e)

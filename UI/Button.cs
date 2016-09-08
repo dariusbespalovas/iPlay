@@ -27,15 +27,15 @@ namespace iPlay.UI
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
 
-			graphics.FillRectangle(BackgroudBrush, 0, 0, Rect.W, Rect.H);
-			graphics.DrawRectangle(BorderPen, 0, 0, Rect.W - 1, Rect.H - 1);
+			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
+			graphics.DrawRectangle(BorderPen, 0, 0, RectScreenSpace.W - 1, RectScreenSpace.H - 1);
 
-			graphics.FillRectangle(testBrush, 0 + Rect.W / 3, 0 + Rect.H / 3, Rect.W / 3, Rect.H / 3);
+			graphics.FillRectangle(testBrush, 0 + RectScreenSpace.W / 3, 0 + RectScreenSpace.H / 3, RectScreenSpace.W / 3, RectScreenSpace.H / 3);
 
 			//graphics.DrawString(Name, new Font(new FontFamily(GenericFontFamilies.SansSerif), 7, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 0, 0);
 
 
-			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);
+			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 
 		}
 

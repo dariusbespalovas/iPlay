@@ -23,6 +23,10 @@ namespace iPlay.UI
 		#endregion
 
 		public Rect2D Rect;
+		public Rect2D OriginalRect;
+		public AnchorStyles Anchor { get; set; }
+
+		protected Rect2D RectScreenSpace;
 
 		protected System.Drawing.Graphics graphics;
 		protected System.Drawing.Bitmap Bmp;
@@ -32,8 +36,23 @@ namespace iPlay.UI
 		public UIElement(Rect2D rect)
 		{
 			this.Rect = rect;
+			this.RectScreenSpace = new Rect2D
+			{
+				X = rect.X,
+				Y = rect.Y,
+				W = rect.W,
+				H = rect.H
+			};
+			this.OriginalRect = new Rect2D
+			{
+				X = rect.X,
+				Y = rect.Y,
+				W = rect.W,
+				H = rect.H
+			};
 			this.Bmp = new System.Drawing.Bitmap(Rect.W, rect.H);
 			this.graphics = System.Drawing.Graphics.FromImage(this.Bmp);
+			this.Anchor = AnchorStyles.None;
 
 			//System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(this.Bmp);
 
@@ -42,11 +61,70 @@ namespace iPlay.UI
 
 		public bool CheckBoundingBox(Events.MouseEvent e)
 		{
-			return(	e.X >= Rect.X && e.X < Rect.X + Rect.W &&
-					e.Y >= Rect.Y && e.Y < Rect.Y + Rect.H);
+			return(	e.X >= RectScreenSpace.X && e.X < RectScreenSpace.X + RectScreenSpace.W &&
+					e.Y >= RectScreenSpace.Y && e.Y < RectScreenSpace.Y + RectScreenSpace.H);
 		}
 
 		public abstract void Draw(PaintEventArgs e);
+		public virtual void Update(UIElement parrent)
+		{
+			RectScreenSpace.X = Rect.X;
+			RectScreenSpace.Y = Rect.Y;
+
+			if (parrent != null)
+			{
+				this.RectScreenSpace.X += parrent.RectScreenSpace.X;
+				this.RectScreenSpace.Y += parrent.RectScreenSpace.Y;
+			}
+
+			
+
+			RectScreenSpace.W = Rect.W;
+			RectScreenSpace.H = Rect.H;
+
+
+			//this.RectScreenSpace.X = parrent.Rect.W - this.Rect.W - this.RectScreenSpace.X;
+
+			//this.RectScreenSpace.X = (parrent.Rect.X + parrent.Rect.W) - (parrent.RectScreenSpace.W - this.RectScreenSpace.X);
+
+			//this.RectScreenSpace.X = parrent.Rect.W - this.Rect.W - this.RectScreenSpace.X;
+
+
+			if((Anchor & AnchorStyles.Right) == AnchorStyles.Right)
+			{
+				this.RectScreenSpace.X = parrent.RectScreenSpace.X + parrent.RectScreenSpace.W - (parrent.OriginalRect.W - this.OriginalRect.X);
+			}
+
+			if ((Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
+			{
+				this.RectScreenSpace.Y = parrent.RectScreenSpace.Y + parrent.RectScreenSpace.H - (parrent.OriginalRect.H - this.OriginalRect.Y);
+			}
+
+			//switch (Anchor)
+			//{
+			//	case AnchorStyles.None:
+
+
+
+
+			//		break;
+
+			//	case AnchorStyles.Left | AnchorStyles.Right:
+
+			//		break;
+
+			//	case AnchorStyles.Right:
+			//		this.RectScreenSpace.X = parrent.RectScreenSpace.X + parrent.RectScreenSpace.W - (parrent.OriginalRect.W - this.OriginalRect.X);
+			//		break;
+			//	case AnchorStyles.Bottom:
+			//		this.RectScreenSpace.Y = parrent.RectScreenSpace.Y + parrent.RectScreenSpace.H - (parrent.OriginalRect.H - this.OriginalRect.Y);
+
+			//		break;
+
+
+			//}
+
+		}
 
 		#region EVENTS
 		public virtual void HandleMouseEvents(Events.MouseEvent e)

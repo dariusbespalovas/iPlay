@@ -19,20 +19,33 @@ namespace iPlay
 		{
 			InitializeComponent();
 
-			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = this.Width, H = this.Height });
+			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 488, H = 145 });
 			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
 
-			buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
-			buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
+			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
+			this.buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
 
 			this.uiForm
 				.AddChild(buttonMinimize)
 				.AddChild(buttonClose)
 				.AddChild(uiContainer);
+
+
+			this.uiContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			this.buttonMinimize.Anchor = AnchorStyles.Right;
+			this.buttonClose.Anchor = AnchorStyles.Right;
+
 		}
 
 		private void CustomForm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
 		{
+			if(uiForm != null)
+			{
+				uiForm.Rect.W = this.ClientSize.Width;
+				uiForm.Rect.H = this.ClientSize.Height;
+			}
+
+			uiForm?.Update(null);
 			uiForm?.Draw(e);
 		}
 
@@ -89,7 +102,8 @@ namespace iPlay
 			this.Name = "CustomForm";
 
 			this.DoubleBuffered = true;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;// | FormBorderStyle.Sizable;
+			
 
 			this.Paint += new PaintEventHandler(CustomForm_Paint);
 

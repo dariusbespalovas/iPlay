@@ -69,46 +69,46 @@ namespace iPlay.UI
 
 		public override void Draw(System.Windows.Forms.PaintEventArgs e)
 		{
-			graphics.FillRectangle(BackgroudBrush, 0, 0, Rect.W, Rect.H);
+			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
 
 
 			if (Orientation == SliderOrientation.Horizontal)
 			{
-				int center = (int)((Rect.W - (SL_SPACE * 2)) * ((float)Value));
+				int center = (int)((RectScreenSpace.W - (SL_SPACE * 2)) * ((float)Value));
 
 				graphics.DrawLine(PenLine,
 					0,
-					(int)((Rect.H / 2) + 0.5),
-					Rect.W,
-					(int)((Rect.H / 2) + 0.5));
+					(int)((RectScreenSpace.H / 2) + 0.5),
+					RectScreenSpace.W,
+					(int)((RectScreenSpace.H / 2) + 0.5));
 
 
 				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
 
 
-				graphics.FillRectangle(BrushSlider, c_cube + 1, 0, SL_CUBE, Rect.H);
-				graphics.DrawRectangle(PenBorder, c_cube + 1, 0, SL_CUBE - 1, Rect.H - 1);
+				graphics.FillRectangle(BrushSlider, c_cube + 1, 0, SL_CUBE, RectScreenSpace.H);
+				graphics.DrawRectangle(PenBorder, c_cube + 1, 0, SL_CUBE - 1, RectScreenSpace.H - 1);
 			}
 
 			if (Orientation == SliderOrientation.Vertical)
 			{
-				int center = (int)((Rect.H - (SL_SPACE * 2)) * ((float)Value));
+				int center = (int)((RectScreenSpace.H - (SL_SPACE * 2)) * ((float)Value));
 
 				graphics.DrawLine(PenLine,
-					(int)((Rect.W / 2) + 0.5),
+					(int)((RectScreenSpace.W / 2) + 0.5),
 					0,
-					(int)((Rect.W / 2) + 0.5),
-					Rect.H);
+					(int)((RectScreenSpace.W / 2) + 0.5),
+					RectScreenSpace.H);
 
 
 				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
 
 
-				graphics.FillRectangle(BrushSlider, 0, c_cube + 1, Rect.W, SL_CUBE);
-				graphics.DrawRectangle(PenBorder, 0, c_cube + 1, Rect.W - 1, SL_CUBE - 1);
+				graphics.FillRectangle(BrushSlider, 0, c_cube + 1, RectScreenSpace.W, SL_CUBE);
+				graphics.DrawRectangle(PenBorder, 0, c_cube + 1, RectScreenSpace.W - 1, SL_CUBE - 1);
 			}
 
-			e.Graphics.DrawImageUnscaled(Bmp, Rect.X, Rect.Y);
+			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 		}
 
 
@@ -184,20 +184,20 @@ namespace iPlay.UI
 
 			if (Orientation == SliderOrientation.Horizontal)
 			{
-				int tmp = MousePosition - Rect.X - (int)SL_SPACE;
+				int tmp = MousePosition - RectScreenSpace.X - (int)SL_SPACE;
 				LastMousePoint1 = LastMousePoint2;
 				LastMousePoint2 = tmp;
 
-				if (MousePosition >= Rect.X + 1 + SL_SPACE && MousePosition <= Rect.X + Rect.W - 1 - SL_SPACE)
+				if (MousePosition >= RectScreenSpace.X + 1 + SL_SPACE && MousePosition <= RectScreenSpace.X + RectScreenSpace.W - 1 - SL_SPACE)
 				{
 
-					if (LastMousePoint1 != tmp) Value = (float)tmp / (Rect.W - 2 * SL_SPACE) /** 100*/;
+					if (LastMousePoint1 != tmp) Value = (float)tmp / (RectScreenSpace.W - 2 * SL_SPACE) /** 100*/;
 				}
 				else
 				{
 
-					if (MousePosition < Rect.X + 1 + SL_SPACE) Value = 0f;
-					if (MousePosition > Rect.X + Rect.W - 1 - SL_SPACE) Value = 1f;
+					if (MousePosition < RectScreenSpace.X + 1 + SL_SPACE) Value = 0f;
+					if (MousePosition > RectScreenSpace.X + RectScreenSpace.W - 1 - SL_SPACE) Value = 1f;
 
 				}
 			}
@@ -205,20 +205,20 @@ namespace iPlay.UI
 
 			if (Orientation == SliderOrientation.Vertical)
 			{
-				int tmp = MousePosition - Rect.Y - (int)SL_SPACE;
+				int tmp = MousePosition - RectScreenSpace.Y - (int)SL_SPACE;
 				LastMousePoint1 = LastMousePoint2;
 				LastMousePoint2 = tmp;
 
-				if (MousePosition >= Rect.Y + 1 + SL_SPACE && MousePosition <= Rect.Y + Rect.H - 1 - SL_SPACE)
+				if (MousePosition >= RectScreenSpace.Y + 1 + SL_SPACE && MousePosition <= RectScreenSpace.Y + RectScreenSpace.H - 1 - SL_SPACE)
 				{
 
-					if (LastMousePoint1 != tmp) Value = (float)tmp / (Rect.H - 2 * SL_SPACE) /** 100*/;
+					if (LastMousePoint1 != tmp) Value = (float)tmp / (RectScreenSpace.H - 2 * SL_SPACE) /** 100*/;
 				}
 				else
 				{
 
-					if (MousePosition < Rect.Y + 1 + SL_SPACE) Value = 0f;
-					if (MousePosition > Rect.Y + Rect.H - 1 - SL_SPACE) Value = 1f;
+					if (MousePosition < RectScreenSpace.Y + 1 + SL_SPACE) Value = 0f;
+					if (MousePosition > RectScreenSpace.Y + RectScreenSpace.H - 1 - SL_SPACE) Value = 1f;
 
 				}
 			}
