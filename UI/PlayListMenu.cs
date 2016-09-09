@@ -39,7 +39,7 @@ namespace iPlay.UI
 		//private Pen BorderPen = new Pen(Color.Orange);
 
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
-		private Pen BorderPen = new Pen(Color.FromArgb(131, 31, 31));
+		private Pen BorderPen = new Pen(Color.FromArgb(31, 31, 31));
 		#endregion
 
 		public PlayListMenu(Rect2D Rect, List<T> list, List<TableSetingsModel> TableSettings) : base(Rect)
@@ -48,8 +48,12 @@ namespace iPlay.UI
 			this.TableSettings = TableSettings;
 
 			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.W - 7, Y = 0, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
-			Scrollbar.Change += ScrollbarChange;
 
+			Scrollbar.Anchor = System.Windows.Forms.AnchorStyles.Top |
+				System.Windows.Forms.AnchorStyles.Bottom |
+				System.Windows.Forms.AnchorStyles.Right;
+
+			Scrollbar.Change += ScrollbarChange;
 
 			this.Click += PlaylistClickedSingle;
 			this.DoubleClick += PlaylistClickedDouble;
@@ -130,7 +134,7 @@ namespace iPlay.UI
 
 
 
-		public override void Draw(System.Windows.Forms.PaintEventArgs e)
+		public override void Draw(Graphics g)
 		{
 			//UpdateLocations();
 
@@ -146,8 +150,8 @@ namespace iPlay.UI
 				//song
 				for(int i = 0; i < (RectScreenSpace.H-4)/13 && i+TopListRow < RowList.Count; i++)
 				{
-					if(i + TopListRow == SelectedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 +(i*13), RectScreenSpace.W - Scrollbar.Rect.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
-					if(i + TopListRow == MarkedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), RectScreenSpace.W - Scrollbar.Rect.W - 4, 11);
+					if (i + TopListRow == SelectedRow) { graphics.FillRectangle(brushNowPlaying, 2, 2 + (i * 13), RectScreenSpace.W - Scrollbar.RectScreenSpace.W - 3, 12); /*lastPlayed = playlist->getCurrentSongId();*/ }
+					if (i + TopListRow == MarkedRow) graphics.DrawRectangle(penBorderSelected, 2, 2 + (i * 13), RectScreenSpace.W - Scrollbar.RectScreenSpace.W - 4, 11);
 
 					this.DrawRow(RowList[i+TopListRow], i * 13);
 				}
@@ -156,8 +160,8 @@ namespace iPlay.UI
 			}
 
 
-			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
-			Scrollbar.Draw(e);
+			g.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
+			Scrollbar.Draw(g);
 		}
 
 
@@ -229,7 +233,7 @@ namespace iPlay.UI
 			if (MarkedRow > RowList.Count - 1) MarkedRow = RowList.Count - 1;
 
 			if (MarkedRow < TopListRow) TopListRow = MarkedRow;
-			if (MarkedRow >= TopListRow + (Rect.H - 4) / 13) TopListRow = MarkedRow - (Rect.H - 4) / 13 + 1;
+			if (MarkedRow >= TopListRow + (RectScreenSpace.H - 4) / 13) TopListRow = MarkedRow - (RectScreenSpace.H - 4) / 13 + 1;
 
 			UpdateScrollbarValue();
 		}

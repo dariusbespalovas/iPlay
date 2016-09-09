@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace iPlay.UI
@@ -26,7 +27,7 @@ namespace iPlay.UI
 		public Rect2D OriginalRect;
 		public AnchorStyles Anchor { get; set; }
 
-		protected Rect2D RectScreenSpace;
+		public Rect2D RectScreenSpace;
 
 		protected System.Drawing.Graphics graphics;
 		protected System.Drawing.Bitmap Bmp;
@@ -65,7 +66,7 @@ namespace iPlay.UI
 					e.Y >= RectScreenSpace.Y && e.Y < RectScreenSpace.Y + RectScreenSpace.H);
 		}
 
-		public abstract void Draw(PaintEventArgs e);
+		public abstract void Draw(Graphics g);
 		public virtual void Update(UIElement parrent)
 		{
 			RectScreenSpace.X = Rect.X;
@@ -77,17 +78,8 @@ namespace iPlay.UI
 				this.RectScreenSpace.Y += parrent.RectScreenSpace.Y;
 			}
 
-			
-
 			RectScreenSpace.W = Rect.W;
 			RectScreenSpace.H = Rect.H;
-
-
-			//this.RectScreenSpace.X = parrent.Rect.W - this.Rect.W - this.RectScreenSpace.X;
-
-			//this.RectScreenSpace.X = (parrent.Rect.X + parrent.Rect.W) - (parrent.RectScreenSpace.W - this.RectScreenSpace.X);
-
-			//this.RectScreenSpace.X = parrent.Rect.W - this.Rect.W - this.RectScreenSpace.X;
 
 
 			if ((Anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
@@ -99,7 +91,6 @@ namespace iPlay.UI
 				this.RectScreenSpace.X = parrent.RectScreenSpace.X + parrent.RectScreenSpace.W - (parrent.OriginalRect.W - this.OriginalRect.X);
 			}
 
-
 			if ((Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) == (AnchorStyles.Bottom | AnchorStyles.Top))
 			{
 				this.RectScreenSpace.H += parrent.RectScreenSpace.H - parrent.OriginalRect.H; 
@@ -109,31 +100,14 @@ namespace iPlay.UI
 				this.RectScreenSpace.Y = parrent.RectScreenSpace.Y + parrent.RectScreenSpace.H - (parrent.OriginalRect.H - this.OriginalRect.Y);
 			}
 
-			
+			if (this.RectScreenSpace.W != this.Bmp.Width || this.RectScreenSpace.H != this.Bmp.Height)
+			{
+				this.Bmp.Dispose();
+				this.graphics.Dispose();
 
-			//switch (Anchor)
-			//{
-			//	case AnchorStyles.None:
-
-
-
-
-			//		break;
-
-			//	case AnchorStyles.Left | AnchorStyles.Right:
-
-			//		break;
-
-			//	case AnchorStyles.Right:
-			//		this.RectScreenSpace.X = parrent.RectScreenSpace.X + parrent.RectScreenSpace.W - (parrent.OriginalRect.W - this.OriginalRect.X);
-			//		break;
-			//	case AnchorStyles.Bottom:
-			//		this.RectScreenSpace.Y = parrent.RectScreenSpace.Y + parrent.RectScreenSpace.H - (parrent.OriginalRect.H - this.OriginalRect.Y);
-
-			//		break;
-
-
-			//}
+				this.Bmp = new System.Drawing.Bitmap(RectScreenSpace.W <= 0 ? 1 : RectScreenSpace.W, RectScreenSpace.H <= 0 ? 1 : RectScreenSpace.H);
+				this.graphics = System.Drawing.Graphics.FromImage(this.Bmp);
+			}
 
 		}
 

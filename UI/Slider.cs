@@ -67,7 +67,7 @@ namespace iPlay.UI
 		}
 
 
-		public override void Draw(System.Windows.Forms.PaintEventArgs e)
+		public override void Draw(Graphics g)
 		{
 			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
 
@@ -108,7 +108,7 @@ namespace iPlay.UI
 				graphics.DrawRectangle(PenBorder, 0, c_cube + 1, RectScreenSpace.W - 1, SL_CUBE - 1);
 			}
 
-			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
+			g.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 		}
 
 

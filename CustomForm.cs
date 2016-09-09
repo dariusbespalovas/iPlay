@@ -46,7 +46,7 @@ namespace iPlay
 			}
 
 			uiForm?.Update(null);
-			uiForm?.Draw(e);
+			uiForm?.Draw(e.Graphics);
 		}
 
 		private void CustomForm_MouseDown(object sender, MouseEventArgs e)

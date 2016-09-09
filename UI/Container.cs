@@ -33,14 +33,14 @@ namespace iPlay.UI
 			return this;
 		}
 
-		public override void Draw(System.Windows.Forms.PaintEventArgs e)
+		public override void Draw(Graphics g)
 		{
 			// draw self
-			e.Graphics.FillRectangle(BackgroudBrush, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W, RectScreenSpace.H);
-			e.Graphics.DrawRectangle(BorderPen, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W - 1, RectScreenSpace.H - 1);
+			g.FillRectangle(BackgroudBrush, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W, RectScreenSpace.H);
+			g.DrawRectangle(BorderPen, RectScreenSpace.X, RectScreenSpace.Y, RectScreenSpace.W - 1, RectScreenSpace.H - 1);
 
 			// draw childs
-			Nodes.ForEach(fe => fe.Draw(e));
+			Nodes.ForEach(fe => fe.Draw(g));
 		}
 
 		public override void Update(UIElement parrent)

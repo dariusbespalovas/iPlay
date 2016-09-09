@@ -24,7 +24,7 @@ namespace iPlay.UI
 			this.Name = Name;
 		}
 
-		public override void Draw(System.Windows.Forms.PaintEventArgs e)
+		public override void Draw(Graphics g)
 		{
 
 			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
@@ -35,7 +35,7 @@ namespace iPlay.UI
 			//graphics.DrawString(Name, new Font(new FontFamily(GenericFontFamilies.SansSerif), 7, FontStyle.Regular), new SolidBrush(Color.FromArgb(240, 240, 240)), 0, 0);
 
 
-			e.Graphics.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
+			g.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 
 		}
 

@@ -92,7 +92,6 @@ namespace iPlay
 
 			pm.SelectionChanged += PlaylistSelectHandler;
 			pm.Anchor = AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
-			buttonPrev.Anchor = AnchorStyles.Bottom | AnchorStyles.Top;
 
 			this.Paint += new PaintEventHandler(Main_Paint);
 
