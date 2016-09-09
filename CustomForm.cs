@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace iPlay
@@ -14,6 +15,11 @@ namespace iPlay
 
 		private bool mouseDown;
 		private Point lastLocation;
+
+		//protected CustomForm() : this(100, 100)
+		//{
+			
+		//}
 
 		protected CustomForm(int width, int height)
 		{
@@ -102,8 +108,7 @@ namespace iPlay
 			this.Name = "CustomForm";
 
 			this.DoubleBuffered = true;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;// | FormBorderStyle.Sizable;
-			
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;// | FormBorderStyle.Sizable;
 
 			this.Paint += new PaintEventHandler(CustomForm_Paint);
 
@@ -116,6 +121,29 @@ namespace iPlay
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CustomForm_KeyPress2);
 
 			this.ResumeLayout(false);
+		}
+
+		private const int cGrip = 5;      // Grip size
+		//private const int cCaption = 32;   // Caption bar height;
+
+		protected override void WndProc(ref Message m)
+		{
+			if (m.Msg == 0x84)
+			{  // Trap WM_NCHITTEST
+				Point pos = new Point(m.LParam.ToInt32() & 0xffff, m.LParam.ToInt32() >> 16);
+				pos = this.PointToClient(pos);
+				//if (pos.Y < cCaption)
+				//{
+				//	m.Result = (IntPtr)2;  // HTCAPTION
+				//	return;
+				//}
+				if (pos.X >= this.ClientSize.Width - cGrip && pos.Y >= this.ClientSize.Height - cGrip)
+				{
+					m.Result = (IntPtr)17; // HTBOTTOMRIGHT
+					return;
+				}
+			}
+			base.WndProc(ref m);
 		}
 	}
 }
