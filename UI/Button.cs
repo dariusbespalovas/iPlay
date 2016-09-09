@@ -11,17 +11,14 @@ namespace iPlay.UI
 {
 	public class Button : UIElement
 	{
-		public string Name { get; private set; }
-
 		#region drawing stuff
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(131, 31, 31));
 		private Pen BorderPen = new Pen(Color.FromArgb(21, 21, 21));
 		private SolidBrush testBrush = new SolidBrush(Color.FromArgb(200, 31, 31));
 		#endregion
 
-		public Button(Rect2D rect, string Name) : base(rect)
+		public Button(Rect2D rect) : base(rect)
 		{
-			this.Name = Name;
 		}
 
 		public override void Draw(Graphics g)

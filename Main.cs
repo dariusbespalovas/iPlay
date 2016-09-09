@@ -60,13 +60,13 @@ namespace iPlay
 				}
 			};
 
-			buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 },	"<<");
-			buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 }, "|>");
-			buttonPause = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 }, "||");
-			buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "O");
-			buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, ">>");
+			buttonPrev = new UI.Button(new UI.Rect2D { X = 4,	Y = 113, W = 17, H = 13 });
+			buttonPlay = new UI.Button(new UI.Rect2D { X = 22, Y = 113, W = 17, H = 13 });
+			buttonPause = new UI.Button(new UI.Rect2D { X = 40, Y = 113, W = 17, H = 13 });
+			buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 });
+			buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 });
 
-			buttonTST = new UI.Button(new UI.Rect2D { X = 4, Y = 130, W = 17, H = 13 }, "[]");
+			buttonTST = new UI.Button(new UI.Rect2D { X = 4, Y = 130, W = 17, H = 13 });
 
 			sliderProgress = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
 			sliderVolume = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);

@@ -28,8 +28,8 @@ namespace iPlay
 			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = width, H = height });
 			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = width-8, H = height-16 });
 
-			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = width - 21, Y = 2, W = 9, H = 9 }, "Minimize");
-			this.buttonClose = new UI.Button(new UI.Rect2D { X = width - 11, Y = 2, W = 9, H = 9 }, "Close");
+			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = width - 21, Y = 2, W = 9, H = 9 });
+			this.buttonClose = new UI.Button(new UI.Rect2D { X = width - 11, Y = 2, W = 9, H = 9 });
 
 			this.uiForm
 				.AddChild(buttonMinimize)
