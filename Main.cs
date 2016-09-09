@@ -19,6 +19,8 @@ namespace iPlay
 		UI.Button buttonStop;
 		UI.Button buttonNext;
 
+		UI.Button buttonTST;
+
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
@@ -64,6 +66,8 @@ namespace iPlay
 			buttonStop = new UI.Button(new UI.Rect2D { X = 58, Y = 113, W = 17, H = 13 }, "O");
 			buttonNext = new UI.Button(new UI.Rect2D { X = 76, Y = 113, W = 17, H = 13 }, ">>");
 
+			buttonTST = new UI.Button(new UI.Rect2D { X = 4, Y = 130, W = 17, H = 13 }, "[]");
+
 			sliderProgress = new UI.Slider(new UI.Rect2D { X = 4, Y = 102, W = 192, H = 7 }, "Slider1", UI.Slider.SliderOrientation.Horizontal);
 			sliderVolume = new UI.Slider(new UI.Rect2D { X = 102, Y = 116, W = 94, H = 7 }, "Slider2", UI.Slider.SliderOrientation.Horizontal);
 
@@ -76,7 +80,9 @@ namespace iPlay
 				.AddChild(buttonStop)
 				.AddChild(buttonNext)
 				.AddChild(sliderProgress)
-				.AddChild(sliderVolume);
+				.AddChild(sliderVolume)
+				
+				.AddChild(buttonTST);
 
 			buttonPrev.Click += BtnClickHandler;
 			buttonPlay.Click += BtnPlayClickHandler;
@@ -84,7 +90,8 @@ namespace iPlay
 			buttonStop.Click += BtnStopClickHandler;
 			buttonNext.Click += BtnClickHandler;
 
-			buttonMinimize.Click += BtnMinimizeHandler;
+			buttonTST.Click += BtnVideoHandler;
+
 			buttonClose.Click += BtnCloseHandler;
 
 			sliderVolume.Change += VolumeChangeHandler;
@@ -92,8 +99,6 @@ namespace iPlay
 
 			pm.SelectionChanged += PlaylistSelectHandler;
 			pm.Anchor = AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
-
-			this.Paint += new PaintEventHandler(Main_Paint);
 
 			sliderProgress.Value = 0.8f;
 		}
@@ -109,10 +114,19 @@ namespace iPlay
 			Application.Exit();
 		}
 
-		private void BtnMinimizeHandler(object sender, EventArgs e)
+
+
+
+		private void BtnVideoHandler(object sender, EventArgs e)
 		{
-			this.WindowState = FormWindowState.Minimized;
+			var vf = new VideoForm();
+
+			vf.Show();
+
 		}
+
+
+
 
 		private void BtnPlayClickHandler(object sender, EventArgs e)
 		{
@@ -158,11 +172,6 @@ namespace iPlay
 			pm.GetSelection().Duration = (player.GetLength() > 359999) ? 0 : player.GetLength();
 
 			pm.GetSelection().Name = player.GetName();
-		}
-
-		private void Main_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-		{
-			
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)

@@ -28,19 +28,30 @@ namespace iPlay
 			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = width, H = height });
 			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = width-8, H = height-16 });
 
-			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
-			this.buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");
+			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = width - 21, Y = 2, W = 9, H = 9 }, "Minimize");
+			this.buttonClose = new UI.Button(new UI.Rect2D { X = width - 11, Y = 2, W = 9, H = 9 }, "Close");
 
 			this.uiForm
 				.AddChild(buttonMinimize)
 				.AddChild(buttonClose)
 				.AddChild(uiContainer);
 
-
 			this.uiContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
 			this.buttonMinimize.Anchor = AnchorStyles.Right;
 			this.buttonClose.Anchor = AnchorStyles.Right;
 
+			this.buttonMinimize.Click += BtnMinimizeHandler;
+			this.buttonClose.Click += BtnCloseHandler;
+		}
+
+		private void BtnMinimizeHandler(object sender, EventArgs e)
+		{
+			this.WindowState = FormWindowState.Minimized;
+		}
+
+		private void BtnCloseHandler(object sender, EventArgs e)
+		{
+			this.Close();
 		}
 
 		private void CustomForm_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
