@@ -90,15 +90,26 @@ namespace iPlay.UI
 			//this.RectScreenSpace.X = parrent.Rect.W - this.Rect.W - this.RectScreenSpace.X;
 
 
-			if((Anchor & AnchorStyles.Right) == AnchorStyles.Right)
+			if ((Anchor & (AnchorStyles.Left | AnchorStyles.Right)) == (AnchorStyles.Left | AnchorStyles.Right))
+			{
+				this.RectScreenSpace.W += parrent.RectScreenSpace.W - parrent.OriginalRect.W;
+			}
+			else if ((Anchor & AnchorStyles.Right) == AnchorStyles.Right)
 			{
 				this.RectScreenSpace.X = parrent.RectScreenSpace.X + parrent.RectScreenSpace.W - (parrent.OriginalRect.W - this.OriginalRect.X);
 			}
 
-			if ((Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
+
+			if ((Anchor & (AnchorStyles.Bottom | AnchorStyles.Top)) == (AnchorStyles.Bottom | AnchorStyles.Top))
+			{
+				this.RectScreenSpace.H += parrent.RectScreenSpace.H - parrent.OriginalRect.H; 
+			}
+			else if ((Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom)
 			{
 				this.RectScreenSpace.Y = parrent.RectScreenSpace.Y + parrent.RectScreenSpace.H - (parrent.OriginalRect.H - this.OriginalRect.Y);
 			}
+
+			
 
 			//switch (Anchor)
 			//{

@@ -31,7 +31,7 @@ namespace iPlay
 				.AddChild(uiContainer);
 
 
-			this.uiContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+			this.uiContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
 			this.buttonMinimize.Anchor = AnchorStyles.Right;
 			this.buttonClose.Anchor = AnchorStyles.Right;
 

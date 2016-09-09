@@ -39,7 +39,7 @@ namespace iPlay.UI
 		//private Pen BorderPen = new Pen(Color.Orange);
 
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
-		private Pen BorderPen = new Pen(Color.FromArgb(31, 31, 31));
+		private Pen BorderPen = new Pen(Color.FromArgb(131, 31, 31));
 		#endregion
 
 		public PlayListMenu(Rect2D Rect, List<T> list, List<TableSetingsModel> TableSettings) : base(Rect)
