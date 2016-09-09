@@ -15,12 +15,12 @@ namespace iPlay
 		private bool mouseDown;
 		private Point lastLocation;
 
-		protected CustomForm()
+		protected CustomForm(int width, int height)
 		{
 			InitializeComponent();
 
-			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = 488, H = 145 });
-			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = 480, H = 129 });
+			this.uiForm = new UI.Container(new UI.Rect2D { X = 0, Y = 0, W = width, H = height });
+			this.uiContainer = new UI.Container(new UI.Rect2D { X = 4, Y = 12, W = width-8, H = height-16 });
 
 			this.buttonMinimize = new UI.Button(new UI.Rect2D { X = 467, Y = 2, W = 9, H = 9 }, "Minimize");
 			this.buttonClose = new UI.Button(new UI.Rect2D { X = 477, Y = 2, W = 9, H = 9 }, "Close");

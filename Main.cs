@@ -22,7 +22,7 @@ namespace iPlay
 		UI.Slider sliderProgress = null;
 		UI.Slider sliderVolume = null;
 
-		public Main()
+		public Main() : base(488, 145)
 		{
 			InitializeComponent();
 
