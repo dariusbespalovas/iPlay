@@ -60,7 +60,7 @@ namespace iPlay.UI
 			//gr.FillRectangle(new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0, 0, 0, 0)), new System.Drawing.Rectangle(1, 1, Rect.W, Rect.H));
 		}
 
-		public bool CheckBoundingBox(Events.MouseEvent e)
+		public bool CheckBoundingBox(CustomEvents.MouseEvent e)
 		{
 			return(	e.X >= RectScreenSpace.X && e.X < RectScreenSpace.X + RectScreenSpace.W &&
 					e.Y >= RectScreenSpace.Y && e.Y < RectScreenSpace.Y + RectScreenSpace.H);
@@ -112,14 +112,14 @@ namespace iPlay.UI
 		}
 
 		#region EVENTS
-		public virtual void HandleMouseEvents(Events.MouseEvent e)
+		public virtual void HandleMouseEvents(CustomEvents.MouseEvent e)
 		{
 
 			if(CheckBoundingBox(e))
 			{
 				switch(e.Event)
 				{
-					case Events.MouseEvent.EventType.MouseMove:
+					case CustomEvents.MouseEvent.EventType.MouseMove:
 
 						if(!IsMouseOver)
 						{
@@ -129,7 +129,7 @@ namespace iPlay.UI
 
 						break;
 
-					case Events.MouseEvent.EventType.MouseDown:
+					case CustomEvents.MouseEvent.EventType.MouseDown:
 
 						ClickStarted = true;
 						MouseDown?.Invoke(this, e);
@@ -148,7 +148,7 @@ namespace iPlay.UI
 
 						break;
 
-					case Events.MouseEvent.EventType.MouseUp:
+					case CustomEvents.MouseEvent.EventType.MouseUp:
 
 						if (ClickStarted)
 						{
@@ -165,7 +165,7 @@ namespace iPlay.UI
 			{
 				switch (e.Event)
 				{
-					case Events.MouseEvent.EventType.MouseMove:
+					case CustomEvents.MouseEvent.EventType.MouseMove:
 						if (IsMouseOver)
 						{
 							IsMouseOver = false;
@@ -173,11 +173,11 @@ namespace iPlay.UI
 						}
 						break;
 
-					case Events.MouseEvent.EventType.MouseDown:
+					case CustomEvents.MouseEvent.EventType.MouseDown:
 						ClickStarted = false;
 						break;
 
-					case Events.MouseEvent.EventType.MouseUp:
+					case CustomEvents.MouseEvent.EventType.MouseUp:
 						ClickStarted = false;
 						break;
 

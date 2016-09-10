@@ -49,7 +49,7 @@ namespace iPlay.UI
 			Nodes.ForEach(fe => fe.Update(this));
 		}
 
-		public override void HandleMouseEvents(Events.MouseEvent e)
+		public override void HandleMouseEvents(CustomEvents.MouseEvent e)
 		{
 			if(!Nodes.Any(a => a.CheckBoundingBox(e)))
 				base.HandleMouseEvents(e);

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace iPlay.Events
+namespace iPlay.CustomEvents
 {
 	public class MouseEvent : EventArgs
 	{

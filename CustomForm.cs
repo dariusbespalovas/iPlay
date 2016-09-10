@@ -74,14 +74,14 @@ namespace iPlay
 				lastLocation = e.Location;
 			}
 
-			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseDown, e));
+			uiForm?.HandleMouseEvents(new CustomEvents.MouseEvent(iPlay.CustomEvents.MouseEvent.EventType.MouseDown, e));
 		}
 
 		private void CustomForm_MouseUp(object sender, MouseEventArgs e)
 		{
 			mouseDown = false;
 
-			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseUp, e));
+			uiForm?.HandleMouseEvents(new CustomEvents.MouseEvent(iPlay.CustomEvents.MouseEvent.EventType.MouseUp, e));
 		}
 
 		private void CustomForm_MouseMove(object sender, MouseEventArgs e)
@@ -94,12 +94,12 @@ namespace iPlay
 				this.Update();
 			}
 
-			uiForm?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseMove, e));
+			uiForm?.HandleMouseEvents(new CustomEvents.MouseEvent(iPlay.CustomEvents.MouseEvent.EventType.MouseMove, e));
 		}
 
 		private void CustomForm_MouseWheel(object sender, MouseEventArgs e)
 		{
-			uiContainer?.HandleMouseEvents(new Events.MouseEvent(iPlay.Events.MouseEvent.EventType.MouseWheel, e));
+			uiContainer?.HandleMouseEvents(new CustomEvents.MouseEvent(iPlay.CustomEvents.MouseEvent.EventType.MouseWheel, e));
 		}
 
 		private void CustomForm_KeyPress(object sender, KeyPressEventArgs e)

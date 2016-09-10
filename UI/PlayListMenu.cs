@@ -88,12 +88,12 @@ namespace iPlay.UI
 
 		private void HandleClickSelection(EventArgs e, bool IsDoubleClick)
 		{
-			if (((Events.MouseEvent)e).X >= RectScreenSpace.X + 1 && ((Events.MouseEvent)e).X <= RectScreenSpace.X + RectScreenSpace.W - 13 &&
-					((Events.MouseEvent)e).Y >= RectScreenSpace.Y && ((Events.MouseEvent)e).Y <= RectScreenSpace.Y + RectScreenSpace.H)
+			if (((CustomEvents.MouseEvent)e).X >= RectScreenSpace.X + 1 && ((CustomEvents.MouseEvent)e).X <= RectScreenSpace.X + RectScreenSpace.W - 13 &&
+					((CustomEvents.MouseEvent)e).Y >= RectScreenSpace.Y && ((CustomEvents.MouseEvent)e).Y <= RectScreenSpace.Y + RectScreenSpace.H)
 			{
 				for (int i = 0; i < (RectScreenSpace.H - 4) / 13 && i + TopListRow < RowList.Count; i++)
 				{
-					if (((Events.MouseEvent)e).Y >= RectScreenSpace.Y + 2 + (i * 13) && ((Events.MouseEvent)e).Y <= RectScreenSpace.Y + 2 + (i * 13) + 12)
+					if (((CustomEvents.MouseEvent)e).Y >= RectScreenSpace.Y + 2 + (i * 13) && ((CustomEvents.MouseEvent)e).Y <= RectScreenSpace.Y + 2 + (i * 13) + 12)
 					{
 						int LastSelection = MarkedRow;
 						MarkedRow = TopListRow + i;
@@ -177,7 +177,7 @@ namespace iPlay.UI
 
 
 
-		public override void HandleMouseEvents(Events.MouseEvent e)
+		public override void HandleMouseEvents(CustomEvents.MouseEvent e)
 		{
 			if (!Scrollbar.CheckBoundingBox(e))
 			{
@@ -186,7 +186,7 @@ namespace iPlay.UI
 				{
 					switch (e.Event)
 					{
-						case Events.MouseEvent.EventType.MouseWheel:
+						case CustomEvents.MouseEvent.EventType.MouseWheel:
 							TopListRow -= e.Delta * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / 120;
 
 							if (TopListRow < 0) TopListRow = 0;

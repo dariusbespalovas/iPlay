@@ -155,32 +155,32 @@ namespace iPlay.UI
 		private void MDown(object sender, EventArgs e)
 		{
 			this.IsMouseDown = true;
-			UpdateProgress((Events.MouseEvent)e);
+			UpdateProgress((CustomEvents.MouseEvent)e);
 		}
 
 
-		public override void HandleMouseEvents(Events.MouseEvent e)
+		public override void HandleMouseEvents(CustomEvents.MouseEvent e)
 		{
 			base.HandleMouseEvents(e);
 			switch(e.Event)
 			{
-				case Events.MouseEvent.EventType.MouseMove:
+				case CustomEvents.MouseEvent.EventType.MouseMove:
 					if (IsMouseDown)
 					{
 						UpdateProgress(e);
 					}
 					break;
 
-				case Events.MouseEvent.EventType.MouseUp:
+				case CustomEvents.MouseEvent.EventType.MouseUp:
 					IsMouseDown = false;
 					break;
 			}
 		}
 
 
-		private void UpdateProgress(Events.MouseEvent e)
+		private void UpdateProgress(CustomEvents.MouseEvent e)
 		{
-			int MousePosition = Orientation == SliderOrientation.Horizontal ? ((Events.MouseEvent)e).X : ((Events.MouseEvent)e).Y;
+			int MousePosition = Orientation == SliderOrientation.Horizontal ? ((CustomEvents.MouseEvent)e).X : ((CustomEvents.MouseEvent)e).Y;
 
 			if (Orientation == SliderOrientation.Horizontal)
 			{

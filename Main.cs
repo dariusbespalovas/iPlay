@@ -119,10 +119,7 @@ namespace iPlay
 
 		private void BtnVideoHandler(object sender, EventArgs e)
 		{
-			var vf = new VideoForm();
-
-			vf.Show();
-
+			new VideoForm().Show();
 		}
 
 

@@ -66,7 +66,7 @@
     <Compile Include="CustomForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Events\MouseEvent.cs" />
+    <Compile Include="CustomEvents\MouseEvent.cs" />
     <Compile Include="FMOD\fmod.cs" />
     <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="FMOD\fmod_errors.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="UI\Rect2D.cs" />
     <Compile Include="UI\Slider.cs" />
     <Compile Include="UI\UIElement.cs" />
+    <Compile Include="UI\VLC.cs" />
     <Compile Include="Utils\XmlUtility.cs" />
     <Compile Include="VideoForm.cs">
       <SubType>Form</SubType>
