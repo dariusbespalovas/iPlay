@@ -66,15 +66,51 @@
     <Compile Include="CustomForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomEvents\MouseEvent.cs" />
-    <Compile Include="FMOD\fmod.cs" />
-    <Compile Include="FMOD\fmod_dsp.cs" />
-    <Compile Include="FMOD\fmod_errors.cs" />
+    <Compile Include="CustomForm.Designer.cs">
+      <DependentUpon>CustomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ScrollableTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ScrollableTable.Designer.cs">
+      <DependentUpon>ScrollableTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Slider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Slider.Designer.cs">
+      <DependentUpon>Slider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Table.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Table.Designer.cs">
+      <DependentUpon>Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VideoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VideoForm.Designer.cs">
+      <DependentUpon>VideoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_CustomFormOld.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomEvents\MouseEvent.cs" />
+    <Compile Include="FMOD\fmod.cs" />
+    <Compile Include="FMOD\fmod_dsp.cs" />
+    <Compile Include="FMOD\fmod_errors.cs" />
+    <Compile Include="_OldMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_OldMain.Designer.cs">
+      <DependentUpon>_OldMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Player\FmodPlayer.cs" />
     <Compile Include="Player\iPlayer.cs" />
@@ -82,19 +118,37 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="UI\Button.cs" />
+    <Compile Include="TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Button.Designer.cs">
+      <DependentUpon>Button.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\OldButton.cs" />
     <Compile Include="UI\Container.cs" />
-    <Compile Include="UI\PlayListMenu.cs" />
+    <Compile Include="UI\Panel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Panel.Designer.cs">
+      <DependentUpon>Panel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\OldPlayListMenu.cs" />
     <Compile Include="UI\Rect2D.cs" />
-    <Compile Include="UI\Slider.cs" />
+    <Compile Include="UI\OldSlider.cs" />
     <Compile Include="UI\UIElement.cs" />
     <Compile Include="UI\VLC.cs" />
     <Compile Include="Utils\XmlUtility.cs" />
-    <Compile Include="VideoForm.cs">
+    <Compile Include="_OLDVideoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VideoForm.Designer.cs">
-      <DependentUpon>VideoForm.cs</DependentUpon>
+    <Compile Include="_OLDVideoForm.Designer.cs">
+      <DependentUpon>_OLDVideoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="vlctest.cs">
       <SubType>Form</SubType>
@@ -102,8 +156,20 @@
     <Compile Include="vlctest.Designer.cs">
       <DependentUpon>vlctest.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CustomForm.resx">
+      <DependentUpon>CustomForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ScrollableTable.resx">
+      <DependentUpon>ScrollableTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoForm.resx">
+      <DependentUpon>VideoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_OldMain.resx">
+      <DependentUpon>_OldMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -114,6 +180,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="vlctest.resx">
       <DependentUpon>vlctest.cs</DependentUpon>
     </EmbeddedResource>
@@ -455,6 +524,9 @@
     <Content Include="LibVlc\plugins\visualization\libgoom_plugin.dll" />
     <Content Include="LibVlc\plugins\visualization\libprojectm_plugin.dll" />
     <Content Include="LibVlc\plugins\visualization\libvisual_plugin.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

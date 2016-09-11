@@ -14,7 +14,7 @@ namespace iPlay.UI
 		public EventHandler MarkerChanged;
 		#endregion
 
-		private Slider Scrollbar;
+		private OldSlider Scrollbar;
 
 		private int MarkedRow;
 		private int TopListRow;
@@ -47,7 +47,7 @@ namespace iPlay.UI
 			this.RowList = list;
 			this.TableSettings = TableSettings;
 
-			Scrollbar = new UI.Slider(new UI.Rect2D { X = this.Rect.W - 7, Y = 0, W = 7, H = this.Rect.H }, "Slider1", UI.Slider.SliderOrientation.Vertical);
+			Scrollbar = new UI.OldSlider(new UI.Rect2D { X = this.Rect.W - 7, Y = 0, W = 7, H = this.Rect.H }, "Slider1", UI.OldSlider.SliderOrientation.Vertical);
 
 			Scrollbar.Anchor = System.Windows.Forms.AnchorStyles.Top |
 				System.Windows.Forms.AnchorStyles.Bottom |

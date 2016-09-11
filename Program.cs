@@ -16,7 +16,7 @@ namespace iPlay
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new VideoForm());
+			Application.Run(new Main());
 		}
 	}
 }

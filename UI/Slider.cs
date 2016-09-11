@@ -1,28 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace iPlay.UI
 {
-	public class Slider : UIElement
+	public partial class Slider : Control
 	{
 		#region EventHandlers
-		public EventHandler Change;
+		//[SRCategoryAttribute("CatPropertyChanged")]
+		//[IODescriptionAttribute("ControlOnTextChangedDescr")]
+		public event EventHandler ValueChanged;
 		#endregion
 
-		public string Name { get; private set; }
 		private float _Value;
-		private SliderOrientation Orientation;
+		private SliderOrientation _Orientation;
+
 		private bool IsMouseDown = false;
 
 		private const float SL_SPACE = 4.5f;
 		private const int SL_CUBE = 9;
 
 		private int LastMousePoint1 = 0, LastMousePoint2 = 0;
-
 
 		#region drawing stuff
 		private SolidBrush BackgroudBrush = new SolidBrush(Color.FromArgb(31, 31, 31));
@@ -39,6 +44,20 @@ namespace iPlay.UI
 			Vertical
 		}
 
+		public SliderOrientation Orientation
+		{
+			get
+			{
+				return _Orientation;
+			}
+
+			set
+			{
+				this.Invalidate();
+				_Orientation = value;
+			}
+		}
+
 		public float Value
 		{
 			get
@@ -47,6 +66,9 @@ namespace iPlay.UI
 			}
 			set
 			{
+				if (value != _Value)
+					this.Invalidate();
+
 				_Value = value;
 				if (_Value > 1)
 					_Value = 1;
@@ -56,148 +78,99 @@ namespace iPlay.UI
 			}
 		}
 
-		public Slider(Rect2D rect, string Name, SliderOrientation Orientation) : base(rect)
+		public Slider()
 		{
-			this.Name = Name;
-			
-			this.Orientation = Orientation;
+			InitializeComponent();
 
-
-			this.MouseDown += this.MDown;
+			this.MouseDown += Slider_MouseDown;
+			this.MouseMove += Slider_MouseMove;
+			this.MouseUp += Slider_MouseUp;
 		}
 
-
-		public override void Draw(Graphics g)
+		private void Slider_MouseUp(object sender, MouseEventArgs e)
 		{
-			graphics.FillRectangle(BackgroudBrush, 0, 0, RectScreenSpace.W, RectScreenSpace.H);
-
-
-			if (Orientation == SliderOrientation.Horizontal)
-			{
-				int center = (int)((RectScreenSpace.W - (SL_SPACE * 2)) * ((float)Value));
-
-				graphics.DrawLine(PenLine,
-					0,
-					(int)((RectScreenSpace.H / 2) + 0.5),
-					RectScreenSpace.W,
-					(int)((RectScreenSpace.H / 2) + 0.5));
-
-
-				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
-
-
-				graphics.FillRectangle(BrushSlider, c_cube + 1, 0, SL_CUBE, RectScreenSpace.H);
-				graphics.DrawRectangle(PenBorder, c_cube + 1, 0, SL_CUBE - 1, RectScreenSpace.H - 1);
-			}
-
-			if (Orientation == SliderOrientation.Vertical)
-			{
-				int center = (int)((RectScreenSpace.H - (SL_SPACE * 2)) * ((float)Value));
-
-				graphics.DrawLine(PenLine,
-					(int)((RectScreenSpace.W / 2) + 0.5),
-					0,
-					(int)((RectScreenSpace.W / 2) + 0.5),
-					RectScreenSpace.H);
-
-
-				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
-
-
-				graphics.FillRectangle(BrushSlider, 0, c_cube + 1, RectScreenSpace.W, SL_CUBE);
-				graphics.DrawRectangle(PenBorder, 0, c_cube + 1, RectScreenSpace.W - 1, SL_CUBE - 1);
-			}
-
-			g.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
+			this.IsMouseDown = false;
 		}
 
+		private void Slider_MouseMove(object sender, MouseEventArgs e)
+		{
+			if(this.IsMouseDown)
+				UpdateProgress(e);
+		}
 
-
-
-		//int Calculate()
-		//{
-		//	LPPOINT p = new POINT;
-		//	GetCursorPos(p);
-		//	ScreenToClient(hWnd, p);
-
-		//	int tmp = p->x - dimensions->x - SL_SPACE;
-		//	lastMousePoint1 = lastMousePoint2;
-		//	lastMousePoint2 = tmp;
-
-
-		//	if (p->x >= dimensions->x + 1 + SL_SPACE && p->x <= dimensions->x + dimensions->width - 1 - SL_SPACE)
-		//	{
-
-		//		if (lastMousePoint1 != tmp) progress = (float)tmp / (dimensions->width - 2 * SL_SPACE) * 100;
-		//	}
-		//	else
-		//	{
-
-		//		if (p->x < dimensions->x + 1 + SL_SPACE) progress = 0.01;
-		//		if (p->x > dimensions->x + dimensions->width - 1 - SL_SPACE) progress = 100;
-
-		//	}
-
-
-
-		//	delete[] p;
-
-		//	if (lastMousePoint1 != lastMousePoint2)
-		//	{
-		//		SendMessage(hWnd, WM_COMMAND, control_id, 0);
-		//		UpdateGraphics();
-		//	}
-		//	return 0;
-		//}
-
-
-
-		private void MDown(object sender, EventArgs e)
+		private void Slider_MouseDown(object sender, MouseEventArgs e)
 		{
 			this.IsMouseDown = true;
-			UpdateProgress((CustomEvents.MouseEvent)e);
+			UpdateProgress(e);
 		}
 
-
-		public override void HandleMouseEvents(CustomEvents.MouseEvent e)
+		protected override void OnPaint(PaintEventArgs pe)
 		{
-			base.HandleMouseEvents(e);
-			switch(e.Event)
+			//base.OnPaint(pe);
+
+
+			pe.Graphics.FillRectangle(BackgroudBrush, 0, 0, this.ClientRectangle.Width, ClientRectangle.Height);
+
+
+			if (_Orientation == SliderOrientation.Horizontal)
 			{
-				case CustomEvents.MouseEvent.EventType.MouseMove:
-					if (IsMouseDown)
-					{
-						UpdateProgress(e);
-					}
-					break;
+				int center = (int)((ClientRectangle.Width - (SL_SPACE * 2)) * ((float)Value));
 
-				case CustomEvents.MouseEvent.EventType.MouseUp:
-					IsMouseDown = false;
-					break;
+				pe.Graphics.DrawLine(PenLine,
+					0,
+					(int)((ClientRectangle.Height / 2) + 0.5),
+					ClientRectangle.Width,
+					(int)((ClientRectangle.Height / 2) + 0.5));
+
+
+				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
+
+
+				pe.Graphics.FillRectangle(BrushSlider, c_cube + 1, 0, SL_CUBE, ClientRectangle.Height);
+				pe.Graphics.DrawRectangle(PenBorder, c_cube + 1, 0, SL_CUBE - 1, ClientRectangle.Height - 1);
 			}
+
+			if (_Orientation == SliderOrientation.Vertical)
+			{
+				int center = (int)((ClientRectangle.Height - (SL_SPACE * 2)) * ((float)Value));
+
+				pe.Graphics.DrawLine(PenLine,
+					(int)((ClientRectangle.Width / 2) + 0.5),
+					0,
+					(int)((ClientRectangle.Width / 2) + 0.5),
+					ClientRectangle.Height);
+
+
+				int c_cube = (int)(center - (int)((float)SL_CUBE / 2 + 0.5) + SL_SPACE - 0.5);
+
+
+				pe.Graphics.FillRectangle(BrushSlider, 0, c_cube + 1, ClientRectangle.Width, SL_CUBE);
+				pe.Graphics.DrawRectangle(PenBorder, 0, c_cube + 1, ClientRectangle.Width - 1, SL_CUBE - 1);
+			}
+
+			//g.DrawImageUnscaled(Bmp, RectScreenSpace.X, RectScreenSpace.Y);
 		}
 
-
-		private void UpdateProgress(CustomEvents.MouseEvent e)
+		private void UpdateProgress(MouseEventArgs e)
 		{
-			int MousePosition = Orientation == SliderOrientation.Horizontal ? ((CustomEvents.MouseEvent)e).X : ((CustomEvents.MouseEvent)e).Y;
+			int MousePosition = Orientation == SliderOrientation.Horizontal ? e.X : e.Y;
 
 			if (Orientation == SliderOrientation.Horizontal)
 			{
-				int tmp = MousePosition - RectScreenSpace.X - (int)SL_SPACE;
+				int tmp = MousePosition - ClientRectangle.X - (int)SL_SPACE;
 				LastMousePoint1 = LastMousePoint2;
 				LastMousePoint2 = tmp;
 
-				if (MousePosition >= RectScreenSpace.X + 1 + SL_SPACE && MousePosition <= RectScreenSpace.X + RectScreenSpace.W - 1 - SL_SPACE)
+				if (MousePosition >= ClientRectangle.X + 1 + SL_SPACE && MousePosition <= ClientRectangle.X + ClientRectangle.Width - 1 - SL_SPACE)
 				{
 
-					if (LastMousePoint1 != tmp) Value = (float)tmp / (RectScreenSpace.W - 2 * SL_SPACE) /** 100*/;
+					if (LastMousePoint1 != tmp) Value = (float)tmp / (ClientRectangle.Width - 2 * SL_SPACE) /** 100*/;
 				}
 				else
 				{
 
-					if (MousePosition < RectScreenSpace.X + 1 + SL_SPACE) Value = 0f;
-					if (MousePosition > RectScreenSpace.X + RectScreenSpace.W - 1 - SL_SPACE) Value = 1f;
+					if (MousePosition < ClientRectangle.X + 1 + SL_SPACE) Value = 0f;
+					if (MousePosition > ClientRectangle.X + ClientRectangle.Width - 1 - SL_SPACE) Value = 1f;
 
 				}
 			}
@@ -205,25 +178,25 @@ namespace iPlay.UI
 
 			if (Orientation == SliderOrientation.Vertical)
 			{
-				int tmp = MousePosition - RectScreenSpace.Y - (int)SL_SPACE;
+				int tmp = MousePosition - ClientRectangle.Y - (int)SL_SPACE;
 				LastMousePoint1 = LastMousePoint2;
 				LastMousePoint2 = tmp;
 
-				if (MousePosition >= RectScreenSpace.Y + 1 + SL_SPACE && MousePosition <= RectScreenSpace.Y + RectScreenSpace.H - 1 - SL_SPACE)
+				if (MousePosition >= ClientRectangle.Y + 1 + SL_SPACE && MousePosition <= ClientRectangle.Y + ClientRectangle.Height - 1 - SL_SPACE)
 				{
 
-					if (LastMousePoint1 != tmp) Value = (float)tmp / (RectScreenSpace.H - 2 * SL_SPACE) /** 100*/;
+					if (LastMousePoint1 != tmp) Value = (float)tmp / (ClientRectangle.Height - 2 * SL_SPACE) /** 100*/;
 				}
 				else
 				{
 
-					if (MousePosition < RectScreenSpace.Y + 1 + SL_SPACE) Value = 0f;
-					if (MousePosition > RectScreenSpace.Y + RectScreenSpace.H - 1 - SL_SPACE) Value = 1f;
+					if (MousePosition < ClientRectangle.Y + 1 + SL_SPACE) Value = 0f;
+					if (MousePosition > ClientRectangle.Y + ClientRectangle.Height - 1 - SL_SPACE) Value = 1f;
 
 				}
 			}
 
-			Change?.Invoke(this, e);
+			ValueChanged?.Invoke(this, e);
 		}
 	}
 }
