@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace iPlay.UI
 {
-	public abstract class UIElement
+	public abstract class UIElement// : Component
 	{
 		#region EventHandlers
 		public EventHandler MouseEnter;

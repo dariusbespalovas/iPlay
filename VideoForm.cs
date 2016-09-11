@@ -30,10 +30,14 @@ namespace iPlay
 			sliderVideoProgress.Change += ProgressChangeHandler;
 
 			this.uiContainer
-				//.AddChild(vlc)
+				.AddChild(vlc)
 				.AddChild(sliderVideoProgress);
 
 			this.ClientSize = new System.Drawing.Size(500, 500);
+
+			
+
+			//this.components.Add(vlc.vlcControl1);
 
 			vlcControl1.SetMedia(new FileInfo("J:\\Video\\Klipai\\√Bestamvsofalltime ▪ Aevum AMV.mp4"));
 			//vlcControl1.SetMedia(new Uri("http://r8---sn-p5qlsnsz.googlevideo.com/videoplayback?ip=159.253.144.86&mime=video%2Fmp4&source=youtube&mm=31&mn=sn-p5qlsnsz&pl=24&id=o-AJPwZMxa8FEHRYl67cBP2jFFdVBQy5vgUdbMlrrUFKHL&ms=au&mt=1473448324&mv=m&expire=1473470419&upn=rcZR3lrbNzM&key=yt6&ipbits=0&ratebypass=yes&itag=22&initcwndbps=2952500&dur=3809.581&nh=IgpwcjAzLmlhZDA3KgkxMjcuMC4wLjE&sver=3&sparams=dur%2Cei%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cnh%2Cpl%2Cratebypass%2Csource%2Cupn%2Cexpire&lmt=1471303980134852&ei=cwvTV66SBdSUWLaykuAO&signature=E177FCFB9BF8BCF0FD71D08CA982D00FF1509012.8EDE0CAD0D6E309B1760187DD5538D66B4AB06FE&title=Summer+Ibiza+Mix+2016+-+Best+Of+Deep+House+Sessions+Music+2016+Chill+Out+Mix+by+Drop+G"));
