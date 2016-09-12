@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iPlay.Player;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,12 @@ namespace iPlay
 	public partial class Main : CustomForm
 	{
 		private List<PlaylistItemModel> playlist = null;
+
+		private VideoForm videoForm = null;
+
+		private iPlayer player;
+		private iPlayer fmodPlayer = new FmodPlayer();
+		private iPlayer vlcPlayer = new VlcPlayer();
 
 		public Main()
 		{
@@ -56,6 +63,49 @@ namespace iPlay
 			scrollableTable1.AllowDrop = true;
 			scrollableTable1.DragDrop += ScrollableTable1_DragDrop;
 			scrollableTable1.DragEnter += ScrollableTable1_DragEnter;
+			scrollableTable1.table.SelectionChanged += Table_SelectionChanged;
+
+			volumeSlider.ValueChanged += VolumeSlider_ValueChanged;
+			positionSlider.ValueChanged += PositionSlider_ValueChanged;
+		}
+
+		private void PositionSlider_ValueChanged(object sender, EventArgs e)
+		{
+			player.SetProgress(((UI.Slider)sender).Value);
+		}
+
+		private void VolumeSlider_ValueChanged(object sender, EventArgs e)
+		{
+			player.SetVolume(((UI.Slider)sender).Value);
+		}
+
+		private void Table_SelectionChanged(object sender, EventArgs e)
+		{
+			PlaylistItemModel playlistItemModel = (PlaylistItemModel)(((UI.Table)sender).GetSelection());
+
+			if (player != null)
+			{
+				player.Stop();
+			}
+
+			if(playlistItemModel.Path.EndsWith(".mp3"))
+			{
+				player = this.fmodPlayer;
+			}
+			else
+			{
+				player = this.vlcPlayer;
+				ShowVideoForm();
+			}
+
+
+			player.LoadTrack(playlistItemModel.Path);
+			player.SetVolume(volumeSlider.Value);
+			player.Play();
+
+			//pm.GetSelection().Duration = (player.GetLength() > 359999) ? 0 : player.GetLength();
+
+			//pm.GetSelection().Name = player.GetName();
 		}
 
 		private void ScrollableTable1_DragEnter(object sender, DragEventArgs e)
@@ -95,6 +145,41 @@ namespace iPlay
 			System.IO.File.WriteAllText(Settings.Instance.PlayerSettings.PlaylistFilePath, Utils.XmlUtility.SerializeToXmlString(playlist));
 
 			Application.Exit();
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			if (player != null && player.IsPlaying())
+			{
+				positionSlider.Value = player.GetProgress();
+				volumeSlider.Value = player.GetVolume();
+			}
+		}
+
+		private void ShowVideoForm()
+		{
+			if((videoForm == null || videoForm.IsDisposed))
+			{
+				videoForm = new VideoForm();
+				videoForm.FormClosing += VideoForm_VideoClosed;
+			}
+
+
+			videoForm.Show();
+
+			((VlcPlayer)player).SetVideoOutHandle(videoForm.GetVideoPanelHandle());
+
+			
+		}
+
+		private void VideoForm_VideoClosed(object sender, EventArgs e)
+		{
+			((VlcPlayer)player).SetVideoOutHandle(panelV.Handle);
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			((VlcPlayer)player).SetVideoOutHandle(panelV.Handle);
 		}
 	}
 }

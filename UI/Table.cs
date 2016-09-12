@@ -66,6 +66,11 @@ namespace iPlay.UI
 			this.MouseWheel += Table_MouseWheel;
 		}
 
+		public object GetSelection()
+		{
+			return RowList[SelectedRow];
+		}
+
 		private void Table_MouseWheel(object sender, MouseEventArgs e)
 		{
 			this.TopListRow -= e.Delta * System.Windows.Forms.SystemInformation.MouseWheelScrollLines / 120;

@@ -75,6 +75,7 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Player\VlcPlayer.cs" />
     <Compile Include="UI\ScrollableTable.cs">
       <SubType>UserControl</SubType>
     </Compile>

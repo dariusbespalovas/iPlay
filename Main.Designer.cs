@@ -28,8 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.button1 = new iPlay.UI.Button();
-			this.button2 = new iPlay.UI.Button();
 			this.volumeSlider = new iPlay.UI.Slider();
 			this.positionSlider = new iPlay.UI.Slider();
 			this.button3 = new iPlay.UI.Button();
@@ -37,6 +37,8 @@
 			this.button5 = new iPlay.UI.Button();
 			this.button6 = new iPlay.UI.Button();
 			this.scrollableTable1 = new iPlay.UI.ScrollableTable();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.panelV = new iPlay.UI.Panel();
 			this.formPanel.SuspendLayout();
 			this.baseFormContentsPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -56,6 +58,7 @@
 			// 
 			// baseFormContentsPanel
 			// 
+			this.baseFormContentsPanel.Controls.Add(this.panelV);
 			this.baseFormContentsPanel.Controls.Add(this.scrollableTable1);
 			this.baseFormContentsPanel.Controls.Add(this.button6);
 			this.baseFormContentsPanel.Controls.Add(this.button5);
@@ -63,7 +66,6 @@
 			this.baseFormContentsPanel.Controls.Add(this.button3);
 			this.baseFormContentsPanel.Controls.Add(this.positionSlider);
 			this.baseFormContentsPanel.Controls.Add(this.volumeSlider);
-			this.baseFormContentsPanel.Controls.Add(this.button2);
 			this.baseFormContentsPanel.Controls.Add(this.button1);
 			this.baseFormContentsPanel.Size = new System.Drawing.Size(482, 130);
 			// 
@@ -74,15 +76,6 @@
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 0;
 			this.button1.Text = "button1";
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(17, 13);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "button2";
-			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// volumeSlider
 			// 
@@ -111,6 +104,7 @@
 			this.button3.Size = new System.Drawing.Size(17, 13);
 			this.button3.TabIndex = 6;
 			this.button3.Text = "button3";
+			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// button4
 			// 
@@ -143,6 +137,18 @@
 			this.scrollableTable1.Size = new System.Drawing.Size(283, 120);
 			this.scrollableTable1.TabIndex = 10;
 			// 
+			// timer1
+			// 
+			this.timer1.Enabled = true;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
+			// panelV
+			// 
+			this.panelV.Location = new System.Drawing.Point(10, 4);
+			this.panelV.Name = "panelV";
+			this.panelV.Size = new System.Drawing.Size(176, 91);
+			this.panelV.TabIndex = 11;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -159,7 +165,6 @@
 		#endregion
 
 		private UI.Button button1;
-		private UI.Button button2;
 		private UI.Slider volumeSlider;
 		private UI.Slider positionSlider;
 		private UI.Button button3;
@@ -167,5 +172,7 @@
 		private UI.Button button5;
 		private UI.Button button4;
 		private UI.ScrollableTable scrollableTable1;
+		private System.Windows.Forms.Timer timer1;
+		private UI.Panel panelV;
 	}
 }

@@ -48,6 +48,7 @@
 			// buttonClose
 			// 
 			this.buttonClose.Location = new System.Drawing.Point(959, 2);
+			this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
 			// 
 			// baseFormContentsPanel
 			// 
@@ -119,7 +120,6 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(971, 626);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "VideoForm";
 			this.Text = "VideoForm";
 			this.formPanel.ResumeLayout(false);
