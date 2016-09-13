@@ -11,7 +11,7 @@ namespace iPlay.Player
 
 		public VlcPlayer()
 		{
-			player = new Vlc.DotNet.Core.VlcMediaPlayer(new System.IO.DirectoryInfo(@"D:\LibVlc"));
+			player = new Vlc.DotNet.Core.VlcMediaPlayer(new System.IO.DirectoryInfo(@"LibVlc"));
 		}
 
 		public int GetLength()
